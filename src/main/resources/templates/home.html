@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome Team 20</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to EMI</title>
 </head>
 <body>
-Hi team, long time no see!
+    <h1>Welcome</h1>
+    <button id="signInButton">Sign In</button>
+    <button id="signUpButton">Sign Up</button>
+
+    <script>
+        document.getElementById('signInButton').addEventListener('click', function(){
+            window.location.href = '/sign-in';
+        });
+
+        document.getElementById('signUpButton').addEventListener('click',function(){
+            window.location.href = '/sign-up';
+        })
+    </script>
 </body>
 </html>

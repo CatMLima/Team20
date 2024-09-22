@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+<h1>Create New User Profile</h1>
+<form id="userForm">
+  <label for="name">Name:</label>
+  <input type="text" id="name" required><br><br>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" required><br><br>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" required><br><br>
+
+  <label for="confirmPassword">Confirm Password:</label>
+  <input type="password" id="confirmPassword" required><br><br>
+
+  <button type="submit">Create User</button>
+</form>
+
+<script>
+  document.getElementById('userForm').addEventListener('submit',function(event){
+   event.preventDefault();
+
+   const name = document.getElementById('name').value;
+   const email = document.getElementById('email').value;
+   const password = document.getElementById('password').value;
+   const confirmPassword = document.getElementById('confirmPassword').value;
+
+   const emailPattern = /^[\w-\.]+@hi\.is$/;
+   const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{10,}$/;
+
+   if (!emailPattern.test(email)){
+     alert('Email must be a University of Iceland address.');
+     return;
+   }
+
+   if (!passwordPattern.test(password)){
+     alert('Password must be at least 10 characters long and contain both letters and numbers.')
+     return;
+   }
+
+   if(password !== confirmPassword){
+     alert("Passwords must match.");
+     return;
+   }
+
+   const userData = {
+     name: name,
+     email: email,
+     password: password
+   };
+
+   fetch('/api/signup',{
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify(userData)
+   }).then(response=> {
+     if(response.ok){
+       alert('User created successfully!');
+     }else{
+       alert('Error creating user, check if you already own an account.');
+     }
+   })
+           .catch(error => console.error('Error:', error));
+      });
+</script>
+
+
+</body>
+</html>
