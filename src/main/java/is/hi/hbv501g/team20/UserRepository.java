@@ -8,8 +8,14 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     User save(User user);
+
     void delete(User user);
+
     List<User> findAll();
+
     Optional<User> findById(long id);
+
     User findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
