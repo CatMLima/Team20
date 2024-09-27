@@ -1,6 +1,6 @@
 package is.hi.hbv501g.team20.Services.Implementations;
 
-import is.hi.hbv501g.team20.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Entities.User;
 import is.hi.hbv501g.team20.Services.LoginService;
 import is.hi.hbv501g.team20.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
