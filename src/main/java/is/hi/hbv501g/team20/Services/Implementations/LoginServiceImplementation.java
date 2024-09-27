@@ -1,13 +1,12 @@
 package is.hi.hbv501g.team20.Services.Implementations;
 
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import is.hi.hbv501g.team20.Services.LoginService;
-import is.hi.hbv501g.team20.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LoginServiceImplementation  implements LoginService {
