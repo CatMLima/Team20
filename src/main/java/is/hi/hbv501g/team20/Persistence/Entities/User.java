@@ -2,6 +2,7 @@ package is.hi.hbv501g.team20.Persistence.Entities;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name= "\"user\"")
 public class User {
@@ -15,6 +16,7 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
 
     private String name;
     private String email;
@@ -30,6 +32,14 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
