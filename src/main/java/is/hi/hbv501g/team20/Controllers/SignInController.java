@@ -1,6 +1,6 @@
 package is.hi.hbv501g.team20.Controllers;
 
-import is.hi.hbv501g.team20.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Entities.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

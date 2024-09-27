@@ -1,10 +1,9 @@
 package is.hi.hbv501g.team20;
 
-import is.hi.hbv501g.team20.Entities.User;
-import org.springframework.boot.CommandLineRunner;
+import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Team20Application {

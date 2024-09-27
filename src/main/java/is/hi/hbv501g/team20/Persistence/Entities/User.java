@@ -1,4 +1,4 @@
-package is.hi.hbv501g.team20.Entities;
+package is.hi.hbv501g.team20.Persistence.Entities;
 
 import jakarta.persistence.*;
 
