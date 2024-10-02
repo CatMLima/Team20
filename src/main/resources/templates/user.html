@@ -9,5 +9,19 @@
     <p>Your email: <span th:text="${user.email}"></span></p>
     <!-- Add more user details as needed -->
     <!-- <a href="/logout">Logout</a>  Logout link -->
+
+    <div>
+        <h2>Your Profile Picture</h2>
+        <img th:src="@{/api/user/{id}/profilePicture(id=${user.id})}" alt="Profile Picture" width="150" height="150" />
+    </div>
+
+    <div>
+        <h3>Change Profile Picture</h3>
+        <form th:action="@{/api/uploadProfilePicture}" method="post" enctype="multipart/form-data">
+            <input type="file" name="profilePicture" accept="image/*" required>
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 </body>
 </html>

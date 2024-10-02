@@ -11,4 +11,5 @@ public interface LoginService {
     List<User> findAll();
     User findByEmail(String username);
     User login(User user);
+    User findById(long id);
 }

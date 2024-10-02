@@ -44,4 +44,9 @@ public class LoginServiceImplementation  implements LoginService {
         }
         return null;
     }
+
+    @Override
+    public User findById(long id){
+        return userRepo.findById(id).orElse(null);
+    }
 }
