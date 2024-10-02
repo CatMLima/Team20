@@ -19,7 +19,7 @@ public class StudyActivity {
     private LocalTime end;
     private String description;
 
-    //not yet u horny bastard!
+    //not yet u horny bastard! <- THE WHHAT NOW?!
     //private Subject subject;
     //@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     //private List<Coffee> coffees;

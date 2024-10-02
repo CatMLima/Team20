@@ -22,6 +22,9 @@ public class User {
     private String email;
     private String password;
 
+    @Lob
+    private byte[] profilePicture;
+
     public User() {
 
     }
@@ -54,5 +57,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
