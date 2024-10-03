@@ -2,6 +2,8 @@ package is.hi.hbv501g.team20.Persistence.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name= "\"user\"")
@@ -24,6 +26,9 @@ public class User {
 
     @Lob
     private byte[] profilePicture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudyActivity> activities;
 
     public User() {
 
@@ -66,4 +71,18 @@ public class User {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
+
+    public List<StudyActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<StudyActivity> activities) {
+        this.activities = activities;
+    }
+
+    public void addActivity(StudyActivity activity) {
+        this.activities.add(activity);
+      //  activity.setUser(this); might be something we would need
+    }
+    //can do removeactivity for delete
 }
