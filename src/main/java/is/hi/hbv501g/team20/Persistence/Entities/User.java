@@ -1,6 +1,7 @@
 package is.hi.hbv501g.team20.Persistence.Entities;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -24,6 +25,9 @@ public class User {
 
     @Lob
     private byte[] profilePicture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudyActivity> studyActivities;
 
     public User() {
 

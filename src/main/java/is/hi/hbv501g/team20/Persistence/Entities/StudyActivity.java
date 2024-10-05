@@ -24,18 +24,23 @@ public class StudyActivity {
     private String subjectID;
     private String subjectName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     //@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     //private List<Coffee> coffees;
     //private String ImageID; //or Image Image
     //private Location location;
 
-    public StudyActivity(Date date, String subjectID, String subjectName, LocalTime start, LocalTime end, String description) {
+    public StudyActivity(Date date, String subjectID, String subjectName, LocalTime start, LocalTime end, String description, User user) {
        this.date = date;
        this.subjectID = subjectID;
        this.subjectName = subjectName;
        this.start = start;
        this.end = end; //implement differently
        this.description = description;
+       this.user = user;
     }
 
     public StudyActivity() {
@@ -95,5 +100,13 @@ public class StudyActivity {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
