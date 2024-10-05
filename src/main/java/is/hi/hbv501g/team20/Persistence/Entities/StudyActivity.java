@@ -13,11 +13,21 @@ public class StudyActivity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ID;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     private Date date;
     private LocalTime start; //eða Timer timer?
     private LocalTime end;
     private String description;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     //not yet u horny bastard! <- THE WHHAT NOW?!
 
@@ -36,6 +46,7 @@ public class StudyActivity {
        this.start = start;
        this.end = end; //implement differently
        this.description = description;
+       this.user = user;
     }
 
     public StudyActivity() {
