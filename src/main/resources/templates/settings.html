@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+</head>
+<body>
+
+    <!-- Copied from the user.html // Change Picture -->
+    <div>
+    <h3>Change Profile Picture</h3>
+        <form th:action="@{/api/uploadProfilePicture}" method="post" enctype="multipart/form-data">
+        <input type="file" name="profilePicture" accept="image/*" required>
+        <input type="hidden" name="userId" th:value="${user.id}">
+        <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <div>
+        <h3>Change Password</h3>
+        <form id="changePasswordForm" th:action="@{/change-password}" method="post">
+            <div>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" placeholder="currentPassword" required>
+            </div>
+            <div>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <div>
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div>
+                <button type="submit">Change Password</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Change Privacy Settings -->
+    <div>
+        <h3>Change Privacy Settings</h3>
+        <form th:action="@{/change-privacy}" method="post">
+            <div>
+                <label for="privateAccount">Private Account:</label>
+                <input type="checkbox" id="privateAccount" name="privateAccount" th:checked="${user.privacySetting}">
+            </div>
+            <div>
+                <button type="submit">Save Privacy Settings</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Delete Account -->
+    <div>
+        <h3>Delete Account</h3>
+        <form th:action="@{/delete-account}" method="post">
+            <button type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete Account</button>
+        </form>
+    </div>
+</body>
+</html>

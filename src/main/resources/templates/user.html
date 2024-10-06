@@ -10,6 +10,7 @@
     <!-- Add more user details as needed -->
     <!-- <a href="/logout">Logout</a>  Logout link -->
 
+
     <div>
         <h2>Your Profile Picture</h2>
         <img th:src="@{/api/user/{id}/profilePicture(id=${user.id})}" alt="Profile Picture" width="150" height="150" />
@@ -22,6 +23,11 @@
             <input type="hidden" name="userId" th:value="${user.id}">
             <button type="submit">Upload</button>
         </form>
+    </div>
+
+    <!-- Add the Settings button -->
+    <div>
+        <button onclick="window.location.href='/settings'">Settings</button>
     </div>
 </body>
 </html>

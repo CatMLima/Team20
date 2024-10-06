@@ -40,13 +40,13 @@ public class StudyActivity {
     //private Location location;
 
     public StudyActivity(Date date, String subjectID, String subjectName, LocalTime start, LocalTime end, String description) {
-       this.date = date;
-       this.subjectID = subjectID;
-       this.subjectName = subjectName;
-       this.start = start;
-       this.end = end; //implement differently
-       this.description = description;
-       this.user = user;
+        this.date = date;
+        this.subjectID = subjectID;
+        this.subjectName = subjectName;
+        this.start = start;
+        this.end = end; //implement differently
+        this.description = description;
+        this.user = user;
     }
 
     public StudyActivity() {
