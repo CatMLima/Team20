@@ -86,7 +86,7 @@ public class SettingsController {
         }
 
         // Update privacy settings
-        user.setPrivacySetting(privateAccount);
+        user.setPrivacy(privateAccount);
         settingsService.save(user);
 
         model.addAttribute("success", "Privacy settings updated successfully.");

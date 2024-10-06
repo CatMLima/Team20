@@ -41,7 +41,7 @@ public class SettingsServiceImplementation implements SettingsService {
     public User updatePrivacy(long id, Boolean privateAccount) {
         User user = findById(id);
         if (user != null) {
-            user.setPrivacySetting(privateAccount);
+            user.setPrivacy(privateAccount);
             return save(user);
         }
         return null;
