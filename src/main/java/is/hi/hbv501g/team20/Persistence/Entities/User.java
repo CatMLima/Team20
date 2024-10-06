@@ -29,6 +29,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> studyActivities;
 
+    private Boolean privacySetting;
+
     public User() {
 
     }
@@ -70,4 +72,10 @@ public class User {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
+
+    public Boolean getPrivacySetting() { return privacySetting; }
+
+    public void setPrivacySetting(Boolean privacySetting) { this.privacySetting = privacySetting; }
+
+
 }

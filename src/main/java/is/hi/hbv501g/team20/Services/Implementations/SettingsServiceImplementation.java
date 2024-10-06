@@ -2,14 +2,14 @@ package is.hi.hbv501g.team20.Services.Implementations;
 
 import is.hi.hbv501g.team20.Persistence.Entities.User;
 import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
-import is.hi.hbv501g.team20.Services.LoginService;
+import is.hi.hbv501g.team20.Services.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LoginServiceImplementation  implements LoginService {
+public class SettingsServiceImplementation implements SettingsService {
 
     @Autowired
     UserRepository userRepo;
@@ -19,11 +19,8 @@ public class LoginServiceImplementation  implements LoginService {
         return userRepo.save(user);
     }
 
-    // Moved to settings???
-    //@Override
-    //public void delete(User user) {
-    //     userRepo.delete(user);
-    //}
+    @Override
+    public void delete(User user){ userRepo.delete(user); }
 
     @Override
     public List<User> findAll() {
@@ -36,18 +33,19 @@ public class LoginServiceImplementation  implements LoginService {
     }
 
     @Override
-    public User login(User user) {
-        User doesExist = findByEmail(user.getEmail());
-        if(doesExist != null){
-            if(doesExist.getPassword().equals(user.getPassword())){
-                return doesExist;
-            }
+    public User findById(long id) {
+        return userRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public User updatePrivacy(long id, Boolean privateAccount) {
+        User user = findById(id);
+        if (user != null) {
+            user.setPrivacySetting(privateAccount);
+            return save(user);
         }
         return null;
     }
 
-    @Override
-    public User findById(long id){
-        return userRepo.findById(id).orElse(null);
-    }
+
 }
