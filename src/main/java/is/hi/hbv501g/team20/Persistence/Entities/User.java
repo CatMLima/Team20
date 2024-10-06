@@ -1,6 +1,7 @@
 package is.hi.hbv501g.team20.Persistence.Entities;
 
 import jakarta.persistence.*;
+
 import java.util.List;
 
 
@@ -27,9 +28,7 @@ public class User {
     private byte[] profilePicture;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StudyActivity> studyActivities;
-
-    private Boolean privacySetting;
+    private List<StudyActivity> activities;
 
     public User() {
 
@@ -73,9 +72,17 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
-    public Boolean getPrivacySetting() { return privacySetting; }
+    public List<StudyActivity> getActivities() {
+        return activities;
+    }
 
-    public void setPrivacySetting(Boolean privacySetting) { this.privacySetting = privacySetting; }
+    public void setActivities(List<StudyActivity> activities) {
+        this.activities = activities;
+    }
 
-
+    public void addActivity(StudyActivity activity) {
+        this.activities.add(activity);
+      //  activity.setUser(this); might be something we would need
+    }
+    //can do removeactivity for delete
 }
