@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Feed</title>
+</head>
+<body>
+<h1>Welcome to Your Feed</h1>
+
+<!-- Button to go to Profile Page -->
+<form th:action="@{/user}" method="get">
+    <button type="submit">Go to Profile</button>
+</form>
+
+<!-- Button to start a Study Activity -->
+<form th:action="@{/create-study}" method="get">
+    <button type="submit">Start Study Activity</button>
+</form>
+
+<!-- Here below we can add content to the feed -->
+<div>
+    <h2>Feed Content</h2>
+    <p>Feed items will go here...</p>
+</div>
+</body>
+</html>
