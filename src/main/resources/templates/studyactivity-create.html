@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyActivity Create</title>
+</head>
+<body>
+<h1>Create your StudyActivity</h1>
+<form role="form" th:action="@{/api/studyactivity-create}" method="post" th:object="${studyactivity}">
+
+
+    <div>
+        <button type="submit">Post</button>
+        <a href="/feed">Cancel</a>
+    </div>
+</form>
+</body>
+</html>

@@ -15,7 +15,7 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
 
     @Autowired
     public StudyActivityServiceImplementation(StudyActivityRepository studyActRepo) {
-        this.studyActRepo = studyActRepo;
+
     }
 
     @Override

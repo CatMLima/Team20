@@ -2,6 +2,7 @@ package is.hi.hbv501g.team20.Controllers;
 
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Services.LoginService;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,26 +15,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class StudyActivityController {
     private StudyActivityService studyActivityService;
+    private LoginService loginService;
 
     @Autowired
-    public StudyActivityController(StudyActivityService studyActivityService) {
+    public StudyActivityController(StudyActivityService studyActivityService, LoginService loginService) {
         this.studyActivityService = studyActivityService;
+        this.loginService = loginService;
     }
 
-    @RequestMapping(value = "/getsa", method = RequestMethod.GET)
-    public String createActivityGet(StudyActivity studyActivity){
-        return "newStudyActivity";
+    @RequestMapping(value = "/api/studyactivity-create", method = RequestMethod.GET)
+    public String createStudyActivityGet(StudyActivity studyActivity){
+        return "studyactivity-details";
     }
-    @RequestMapping(value = "/postsa", method = RequestMethod.POST)
-    public String createActivityPOST(StudyActivity studyActivity, BindingResult result, Model model){
-        // If the information given was faulty, return to newItem page to try again.
+
+    @RequestMapping(value = "/api/studyactivity-create", method = RequestMethod.POST)
+    public String createStudyActivity(StudyActivity studyActivity, BindingResult result, Model model){
         if(result.hasErrors()){
-            return "newStudyActivity";
+            System.out.println(result.getAllErrors());
+            return "studyactivity-create";
         }
-        // Otherwise, save the new item and return to the front page.
         studyActivityService.save(studyActivity);
-        return "redirect:/home";
+        return "redirect:/studyactivity-details";
     }
+
+    @RequestMapping(value="/studyactivity-details", method= RequestMethod.GET)
+    public String getStudyActivityDetailsPage(Model model){
+        model.addAttribute("studyacitivity", studyActivityService.findById(1));
+        return "studyactivity-details";
+    }
+
     // Feed page stuff is here below
     // Displays feed page
     @RequestMapping("/feed")
@@ -54,9 +64,10 @@ public class StudyActivityController {
     }
 
     // Create a study activity
-    @RequestMapping("/create-study")
+    @RequestMapping("/studyactivity-create")
     public String startStudyActivity() {
-        return "studyactivity";
+        return "studyactivity-create";
     }
+
     //End of feed page stuff
 }

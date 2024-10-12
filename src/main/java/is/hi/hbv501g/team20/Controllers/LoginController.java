@@ -35,7 +35,6 @@ public class LoginController {
 
     }
 
-
     @RequestMapping(value="/sign-up", method= RequestMethod.GET)
     public String getSignUpPage(Model model){
         model.addAttribute("user", new User());
