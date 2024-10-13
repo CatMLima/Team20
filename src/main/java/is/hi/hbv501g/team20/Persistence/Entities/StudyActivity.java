@@ -18,7 +18,7 @@ public class StudyActivity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    //@Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     //@Temporal(TemporalType.TIME)
