@@ -21,5 +21,30 @@
     <h2>Feed Content</h2>
     <p>Feed items will go here...</p>
 </div>
+
+<div th:switch="${studyactivity}">
+    <h2 th:case="null">No StudyActivities yet!</h2>
+    <div th:case="*">
+        <h2>Books</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>SubjectID</th>
+                <th>SubjectName</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${studyactivity}">
+                <td th:text="${s.title}"></td>
+                <td th:text="${s.description}"></td>
+                <td th:text="${s.subjectID}"></td>
+                <td th:text="${s.subjectName}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

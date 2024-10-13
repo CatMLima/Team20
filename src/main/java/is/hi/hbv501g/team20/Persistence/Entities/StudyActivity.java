@@ -27,10 +27,10 @@ public class StudyActivity {
     //@Temporal(TemporalType.TIME)
     private LocalTime end;
 
-    private String subjectID;
-    private String subjectName;
     private String title;
     private String description;
+    private String subjectID;
+    private String subjectName;
 
     //not yet u horny bastard! <- THE WHHAT NOW?!
 
@@ -41,17 +41,17 @@ public class StudyActivity {
     public StudyActivity(Date date,
                          LocalTime start,
                          LocalTime end,
-                         String subjectID,
-                         String subjectName,
                          String title,
-                         String description) {
+                         String description,
+                         String subjectID,
+                         String subjectName) {
         this.date = date;
         this.start = start;
         this.end = end; //implement differently?
-        this.subjectID = subjectID;
-        this.subjectName = subjectName;
         this.title = title;
         this.description = description;
+        this.subjectID = subjectID;
+        this.subjectName = subjectName;
     }
 
     public StudyActivity() {
