@@ -49,10 +49,11 @@ public class StudyActivityController {
         studyActivityService.save(studyActivity);
         return "redirect:/feed";
     }
-
-    @RequestMapping(value="/studyactivity-details/{ID}", method= RequestMethod.GET)
-    public String getStudyActivityDetailsPage(@PathVariable("ID") long ID, Model model){
-        model.addAttribute("studyactivity", studyActivityService.findById(ID));
+// displays study activity details
+    @RequestMapping(value="/studyactivity-details/{id}", method= RequestMethod.GET)
+    public String getStudyActivityDetailsPage(@PathVariable("id") long id, Model model){
+        StudyActivity studyActivity = studyActivityService.findById(id);
+        model.addAttribute("studyactivity", studyActivity);
         return "studyactivity-details";
     }
 
@@ -80,6 +81,7 @@ public class StudyActivityController {
     public String startStudyActivity() {
         return "studyactivity-create";
     }
+
 
     //End of feed page stuff
 }
