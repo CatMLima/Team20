@@ -51,17 +51,18 @@
     <!-- Change Privacy Settings -->
     <div>
         <h3>Change Privacy Settings</h3>
-        <form th:action="@{/user}" method="post">
-            <div>
-                <!-- Checkbox for Private Account -->
-                <label for="privateAccount">Private Account:</label>
-                <!-- Checkbox for Private Account -->
-                <input type="checkbox" id="privateAccount" name="privacy"
-                       th:checked="${user.privacy}" th:value="true"/>
-            </div>
-            <div>
-                <button type="submit">Save Privacy Settings</button>
-            </div>
+        <form th:action="@{/settings/privacy}" method="post">
+            <p>
+                <input type="radio" th:field="*{user.privacy}" value="true" id="private"
+                       th:checked="${user.privacy} == true" />
+                <label for="private">Private</label>
+
+                <input type="radio" th:field="*{user.privacy}" value="false" id="public"
+                       th:checked="${user.privacy} == false" />
+                <label for="public">Public</label>
+            </p>
+
+            <button type="submit">Save</button>
         </form>
     </div>
 

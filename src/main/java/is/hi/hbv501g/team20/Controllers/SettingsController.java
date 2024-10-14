@@ -25,8 +25,31 @@ public class SettingsController {
         this.settingsService = settingsService;
     }
 
-    @RequestMapping(value = "/user", method = {RequestMethod.PATCH, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String changePrivacy(HttpSession session, @RequestParam boolean privacy, Model model) {
+    //@RequestMapping(value = "/user", method = {RequestMethod.PATCH, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
+    //public String changePrivacy(HttpSession session, @RequestParam boolean privacy, Model model) {
+
+    //    User user = (User) session.getAttribute("user"); // Retrieve user from session
+
+    //    if (user == null) {
+    //        model.addAttribute("error", "User not logged in.");
+    //        session.invalidate();  // Invalidate session if no user is found
+    //        return "login";  // Redirect to login page
+    //    }
+//
+    //    if (!privacy) {
+    //        privacy = false;
+    //    }
+
+        // Update privacy settings
+    //    user.setPrivacy(privacy);
+    //    settingsService.save(user);
+//
+    //    model.addAttribute("user", user);
+    //    return "settings";  // Redirect to settings page with success message
+    //}
+
+    @PostMapping("/settings/privacy")
+    public String changePrivacy(@RequestParam boolean privacy, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user"); // Retrieve user from session
 
@@ -36,16 +59,16 @@ public class SettingsController {
             return "login";  // Redirect to login page
         }
 
-        if (!privacy) {
-            privacy = false;
-        }
+        // Update the user's privacy setting and save
+        user = settingsService.updatePrivacy(user.getId(), privacy);
 
-        // Update privacy settings
-        user.setPrivacy(privacy);
-        settingsService.save(user);
+        // Update session with the latest user data
+        session.setAttribute("user", user);
 
+        // Show the updated settings
         model.addAttribute("user", user);
-        return "settings";  // Redirect to settings page with success message
+        model.addAttribute("message", "Privacy setting updated successfully.");
+        return "settings"; // Return to settings form with updated values
     }
 
 

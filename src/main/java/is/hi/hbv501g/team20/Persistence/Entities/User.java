@@ -31,8 +31,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> activities;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    private Boolean privacy = Boolean.FALSE;
+    //@Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean privacy = false;
 
     public User() {
         this.privacy = false;
@@ -90,16 +90,15 @@ public class User {
     }
     //can do removeactivity for delete
 
-    public Boolean getPrivacy() {
+    public boolean getPrivacy() {
         return privacy;
     }
 
-    public void setPrivacy(Boolean privacy) {
-        // Default to false
-        this.privacy = Objects.requireNonNullElse(privacy, false);
+    public void setPrivacy(boolean privacy) {
+        this.privacy = privacy;
     }
 
-    public void changePrivacy(Boolean privacy) {
+    public void changePrivacy(boolean privacy) {
         this.privacy = privacy;
     }
 

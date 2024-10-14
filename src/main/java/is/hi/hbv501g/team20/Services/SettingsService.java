@@ -3,7 +3,6 @@ package is.hi.hbv501g.team20.Services;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SettingsService {
     void delete(User user);
@@ -11,5 +10,5 @@ public interface SettingsService {
     User findByEmail(String email);
     User findById(long id);
     User save(User user);
-    User updatePrivacy(long id, Boolean privateAccount);
+    User updatePrivacy(long id, boolean privacy);
 }

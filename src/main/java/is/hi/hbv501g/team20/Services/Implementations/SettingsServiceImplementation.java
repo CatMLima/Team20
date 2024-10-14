@@ -38,7 +38,7 @@ public class SettingsServiceImplementation implements SettingsService {
     }
 
     @Override
-    public User updatePrivacy(long id, Boolean privacy) {
+    public User updatePrivacy(long id, boolean privacy) {
         User user = findById(id);
         if (user != null) {
             user.changePrivacy(privacy);
