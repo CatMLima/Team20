@@ -27,6 +27,7 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
+                <th>User</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>SubjectID</th>
@@ -37,6 +38,7 @@
             </thead>
             <tbody>
             <tr th:each="studyactivity : ${studyactivity}">
+                <td th:text="${studyactivity.user.name}"></td>
                 <td th:text="${studyactivity.title}"></td>
                 <td th:text="${studyactivity.description}"></td>
                 <td th:text="${studyactivity.subjectID}"></td>
