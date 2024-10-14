@@ -18,46 +18,36 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class SettingsController {
 
-    private SettingsServiceImplementation settingsService;
+    private final SettingsServiceImplementation settingsService;
 
-    @PostMapping("/change-password")
-    public String changePassword(@RequestParam String currentPassword,
-                                 @RequestParam String newPassword,
-                                 @RequestParam String confirmPassword,
-                                 HttpSession session,
-                                 Model model) {
-        User user = (User) session.getAttribute("loggedInUser");
+    @Autowired
+    public SettingsController(SettingsServiceImplementation settingsService) {
+        this.settingsService = settingsService;
+    }
+
+    @RequestMapping(value = "/user", method = {RequestMethod.PATCH, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String changePrivacy(HttpSession session, @RequestParam boolean privacy, Model model) {
+
+        User user = (User) session.getAttribute("user"); // Retrieve user from session
 
         if (user == null) {
             model.addAttribute("error", "User not logged in.");
-            return "settings";
+            session.invalidate();  // Invalidate session if no user is found
+            return "login";  // Redirect to login page
         }
 
-        // Add logic here to validate and change the password --> not sure that I know how to do that on the ui
-        if (!newPassword.equals(confirmPassword)) {
-            model.addAttribute("error", "New password and confirmation do not match.");
-            return "settings";  // Return the same form page in case of an error
+        if (!privacy) {
+            privacy = false;
         }
 
-        // Validate password requirements
-        if (!newPassword.matches("^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d]{10,}$")) {
-            model.addAttribute("error", "Password must be at least 10 characters long and contain both letters and numbers.");
-            return "settings";
-        }
-
-        // Implement logic for checking current password (assuming a method exists to validate password)
-        if (!user.getPassword().equals(currentPassword)) {  // This should ideally be hashed and checked
-            model.addAttribute("error", "Current password is incorrect.");
-            return "settings";
-        }
-
-        // Update password and save
-        user.setPassword(newPassword);  // This should be hashed before saving
+        // Update privacy settings
+        user.setPrivacy(privacy);
         settingsService.save(user);
 
-        model.addAttribute("success", "Password changed successfully.");
-        return "redirect:/settings";
+        model.addAttribute("user", user);
+        return "settings";  // Redirect to settings page with success message
     }
+
 
     @PostMapping("/delete-account")
     public String deleteAccount(HttpSession session, Model model) {
@@ -65,31 +55,15 @@ public class SettingsController {
 
         if (user == null) {
             model.addAttribute("error", "User not logged in.");
-            return "settings";
+            return "login";
         }
 
         // Delete the user account
         settingsService.delete(user);
         session.invalidate(); // Invalidate session after account deletion
 
-        // Redirect to an account deletion success page
-        return "redirect:/account-deleted-success";
+        // Redirect to home
+        return "redirect:/home";
     }
 
-    @PostMapping("/change-privacy")
-    public String changePrivacy(@RequestParam boolean privateAccount, HttpSession session, Model model) {
-        User user = (User) session.getAttribute("loggedInUser");
-
-        if (user == null) {
-            model.addAttribute("error", "User not logged in.");
-            return "settings";
-        }
-
-        // Update privacy settings
-        user.setPrivacy(privateAccount);
-        settingsService.save(user);
-
-        model.addAttribute("success", "Privacy settings updated successfully.");
-        return "redirect:/settings";  // Redirect to settings page with success message
-    }
 }

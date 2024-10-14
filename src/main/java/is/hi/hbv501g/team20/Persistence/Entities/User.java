@@ -3,6 +3,7 @@ package is.hi.hbv501g.team20.Persistence.Entities;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -30,10 +31,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> activities;
 
-    private Boolean privacy;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean privacy = Boolean.FALSE;
 
     public User() {
-
+        this.privacy = false;
     }
 
     public void setId(Long id) {
@@ -93,6 +95,12 @@ public class User {
     }
 
     public void setPrivacy(Boolean privacy) {
+        // Default to false
+        this.privacy = Objects.requireNonNullElse(privacy, false);
+    }
+
+    public void changePrivacy(Boolean privacy) {
         this.privacy = privacy;
     }
+
 }
