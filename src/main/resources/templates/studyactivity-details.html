@@ -14,6 +14,20 @@
 <p>SubjectID: <span th:text="${studyactivity.subjectID}"></span></p>
 <p>SubjectName: <span th:text="${studyactivity.subjectName}"></span></p>
 
+<div>
+    <h2>Activity Picture</h2>
+    <img id="activityPicture" th:src="@{'/activity/' + ${studyactivity.id} + '/activityPicture'}" alt="Activity Picture" width="150" height="150" />
+</div>
+
+<div>
+    <h3>Change Profile Picture</h3>
+    <form th:action="@{/uploadActivityPicture}" method="post" enctype="multipart/form-data">
+        <input type="file" name="activityPicture" accept="image/*" required>
+        <input type="hidden" name="activityId" th:value="${studyactivity.id}">
+        <button type="submit">Upload</button>
+    </form>
+</div>
+
 <a href="/feed">Back to Feed</a>
 
 </body>

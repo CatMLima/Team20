@@ -28,6 +28,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    // upload a new profile picture and save the changes to the database.
     @PostMapping("/api/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture,
                                        HttpSession session, Model model) {
@@ -52,15 +53,14 @@ public class UserController {
         return "No picture uploaded";
     }
 
-    /*
-    Still working on this - Cat
-     */
+    // retrieve and display the user picture
     @GetMapping("/user/{id}/profilePicture")
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable Long id){
         User user = loginService.findById(id);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(user.getProfilePicture());
     }
 
+    // pull up the settings page
     @RequestMapping(value="/settings", method=RequestMethod.GET)
     public String getSettingsPage(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
