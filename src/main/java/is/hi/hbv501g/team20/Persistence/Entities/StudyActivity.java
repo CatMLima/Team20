@@ -36,7 +36,8 @@ public class StudyActivity {
 
     //@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     //private List<Coffee> coffees;
-    //private String ImageID; //or Image Image
+    @Lob
+    private byte[] activityPicture;
 
     public StudyActivity(Date date,
                          LocalTime start,
@@ -123,5 +124,13 @@ public class StudyActivity {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public void setActivityPicture(byte[] activityPicture) {
+        this.activityPicture = activityPicture;
+    }
+
+    public byte[] getActivityPicture() {
+        return activityPicture;
     }
 }

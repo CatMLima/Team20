@@ -6,12 +6,13 @@ import is.hi.hbv501g.team20.Services.LoginService;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
 import java.util.Date;
@@ -51,7 +52,7 @@ public class StudyActivityController {
     }
 // displays study activity details
     @RequestMapping(value="/studyactivity-details/{id}", method= RequestMethod.GET)
-    public String getStudyActivityDetailsPage(@PathVariable("id") long id, Model model){
+    public String getStudyActivityDetailsPage(@PathVariable("id") long id, Model model, HttpSession httpSession) {
         StudyActivity studyActivity = studyActivityService.findById(id);
         model.addAttribute("studyactivity", studyActivity);
         return "studyactivity-details";
@@ -82,6 +83,38 @@ public class StudyActivityController {
         return "studyactivity-create";
     }
 
+    // Add a picture to a study activity
+    @PostMapping("/uploadActivityPicture")
+    public String uploadActivityPicture(@RequestParam("activityPicture") MultipartFile activityPicture, @RequestParam("activityId") Long activityId,
+                                       HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("user");
+        StudyActivity studyActivity = studyActivityService.findById(activityId);
+
+        if (!activityPicture.isEmpty()) {
+            try{
+                byte[] bytes = activityPicture.getBytes();
+                studyActivity.setActivityPicture(bytes);
+                studyActivityService.save(studyActivity);
+                model.addAttribute("user", user);
+                model.addAttribute("activityPicture", studyActivity.getActivityPicture());
+                model.addAttribute("studyActivity", studyActivity);
+                return "redirect:/studyactivity-details/" + studyActivity.getId();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Error uploading activity picture";
+            }
+        }
+
+        return "No picture uploaded";
+    }
+
+    // Retrieve and display the study activity picture
+    @GetMapping("/activity/{id}/activityPicture")
+    public ResponseEntity<byte[]> getActivityPicture(@PathVariable Long id){
+        StudyActivity activity = studyActivityService.findById(id);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(activity.getActivityPicture());
+    }
 
     //End of feed page stuff
 }
