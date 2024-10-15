@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface LoginService {
     User save(User user);
 
-    User updatePrivacy(long id, boolean privacy);
+    User updatePrivacy(long id, int privacy);
 
     void delete(User user);
     List<User> findAll();

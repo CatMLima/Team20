@@ -71,7 +71,7 @@ public class LoginController {
     }
 
     @PostMapping("/settings/privacy")
-    public String changePrivacy(@RequestParam boolean privacy, HttpSession session, Model model) {
+    public String changePrivacy(@RequestParam int privacy, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user"); // Retrieve user from session
 

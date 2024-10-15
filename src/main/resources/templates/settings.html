@@ -53,12 +53,12 @@
         <h3>Change Privacy Settings</h3>
         <form th:action="@{/settings/privacy}" method="post">
             <p>
-                <input type="radio" th:field="*{user.privacy}" value="true" id="private"
-                       th:checked="${user.privacy} == true" />
+                <input type="radio" th:field="*{user.privacy}" value=1 id="private"
+                       th:checked="${user.privacy} == 1" />
                 <label for="private">Private</label>
 
-                <input type="radio" th:field="*{user.privacy}" value="false" id="public"
-                       th:checked="${user.privacy} == false" />
+                <input type="radio" th:field="*{user.privacy}" value=0 id="public"
+                       th:checked="${user.privacy} == 0" />
                 <label for="public">Public</label>
             </p>
 
