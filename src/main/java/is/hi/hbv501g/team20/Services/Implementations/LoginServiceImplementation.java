@@ -50,11 +50,6 @@ public class LoginServiceImplementation  implements LoginService {
     }
 
     @Override
-    public User updatePrivacy(User user) {
-        return null;
-    }
-
-    @Override
     public User updatePrivacy(long id, boolean privacy){
         User user = findById(id);
         if (user != null) {

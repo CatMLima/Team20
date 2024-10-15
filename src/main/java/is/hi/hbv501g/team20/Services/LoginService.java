@@ -15,5 +15,5 @@ public interface LoginService {
     User findByEmail(String username);
     User login(User user);
     User findById(long id);
-    User updatePrivacy(User user);
+
 }
