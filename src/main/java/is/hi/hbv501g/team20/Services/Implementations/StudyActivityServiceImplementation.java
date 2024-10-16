@@ -1,6 +1,7 @@
 package is.hi.hbv501g.team20.Services.Implementations;
 
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
+import is.hi.hbv501g.team20.Persistence.Entities.User;
 import is.hi.hbv501g.team20.Persistence.Repository.StudyActivityRepository;
 import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
@@ -15,6 +16,8 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     //UserRepository userRepo;
     @Autowired
     StudyActivityRepository studyActRepo;
+    @Autowired
+    UserRepository userRepo;
 
     @Override
     public StudyActivity save(StudyActivity studyActivity) {
@@ -45,5 +48,8 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     public List<StudyActivity> findAll() {
         return studyActRepo.findAll();
     }
+
+    @Override
+    public List<StudyActivity> findByUser(User user) { return studyActRepo.findByUser(user); }
 
 }

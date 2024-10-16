@@ -29,12 +29,16 @@ public class StudyActivityController {
         this.loginService = loginService;
     }
 
+    // Displays the Create a studyactivity page
     @RequestMapping(value = "/studyactivity-create", method = RequestMethod.GET)
     public String createStudyActivityGet(Model model) {
         model.addAttribute("studyactivity", new StudyActivity());
         return "studyactivity-create";
     }
 
+    // Assigns a user to the studyactivity as well as a date
+    // start and end variables are for a timer that will be implemented later
+    // creates a studyactivity and saves it to the database
     @RequestMapping(value = "/api/studyactivity-create", method = RequestMethod.POST)
     public String createStudyActivity(HttpSession httpSession, StudyActivity studyActivity, BindingResult result, Model model){
 
@@ -50,12 +54,32 @@ public class StudyActivityController {
         studyActivityService.save(studyActivity);
         return "redirect:/feed";
     }
-// displays study activity details
+
+    // deletes a selected studyactivity and removes it from the database
+    @GetMapping("/studyactivity-delete/{id}")
+    public String deleteStudyActicity (@PathVariable("id") long id, Model model){
+        StudyActivity studyActivityToDelete = studyActivityService.findById(id);
+        studyActivityService.delete(studyActivityToDelete);
+        return "redirect:/feed";
+    }
+
+    // displays study activity details
     @RequestMapping(value="/studyactivity-details/{id}", method= RequestMethod.GET)
-    public String getStudyActivityDetailsPage(@PathVariable("id") long id, Model model, HttpSession httpSession) {
+    public String getStudyActivityDetailsPage(@PathVariable("id") long id, Model model) {
         StudyActivity studyActivity = studyActivityService.findById(id);
         model.addAttribute("studyactivity", studyActivity);
         return "studyactivity-details";
+    }
+
+    // Displays a page containing a list of the user's studyactivities
+    @RequestMapping(value="/studyactivity-list", method= RequestMethod.GET)
+    public String getStudyActivityDetailsPage(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            List<StudyActivity> studyActivities = studyActivityService.findByUser(user);
+            model.addAttribute("studyactivity", studyActivities);
+        }
+        return "studyactivity-list";
     }
 
     // Feed page stuff is here below

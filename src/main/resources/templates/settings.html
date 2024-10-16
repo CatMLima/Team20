@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Settings</title>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 <body>
-<h3><span th:text="${user.name}"></span>, (<span th:text="${user.email}"></span>)</h3>
-
-<form th:action="@{/feed}" method="get">
-    <button type="submit">Go to Feed</button>
-</form>
-<form th:action="@{/user}" method="get">
-    <button type="submit">Go to Profile</button>
-</form>
-
-
+<h1><span th:text="${user.name}"></span>, (<span th:text="${user.email}"></span>)</h1>
 
     <!-- Copied from the user.html // Change Picture -->
     <div>
-    <h3>Change Profile Picture</h3>
+    <h4>Change Profile Picture</h4>
         <form th:action="@{/api/uploadProfilePicture}" method="post" enctype="multipart/form-data">
         <input type="file" name="profilePicture" accept="image/*" required>
         <input type="hidden" name="userId" th:value="${user.id}">
@@ -28,7 +21,7 @@
 
     <!-- ENDPOINT for the next part this is just a placeholder / structure -->
     <div>
-        <h3>Change Password</h3>
+        <h4>Change Password</h4>
         <form id="changePasswordForm" th:action="@{/change-password}" method="post">
             <div>
                 <label for="currentPassword">Current Password:</label>
@@ -43,14 +36,14 @@
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
             <div>
-                <button type="submit">Change Password</button>
+                <button class="btn btn-success" type="submit">Change Password</button>
             </div>
         </form>
     </div>
 
     <!-- Change Privacy Settings -->
     <div>
-        <h3>Change Privacy Settings</h3>
+        <h4>Change Privacy Settings</h4>
         <form th:action="@{/settings/privacy}" method="post">
             <p>
                 <input type="radio" th:field="*{user.privacy}" value=1 id="private"
@@ -62,17 +55,22 @@
                 <label for="public">Public</label>
             </p>
 
-            <button type="submit">Save</button>
+            <button class="btn btn-success" type="submit">Save</button>
         </form>
     </div>
-
 
     <!-- Delete Account // NOT WORKING YET -->
     <div>
-        <h3>Delete Account</h3>
+        <h4>Delete Account</h4>
         <form th:action="@{/delete-account}" method="post">
-            <button type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete Account</button>
+            <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete Account</button>
         </form>
     </div>
+<form th:action="@{/user}" method="get">
+    <button class="btn btn-secondary" type="submit">Go to Profile</button>
+</form>
+<form th:action="@{/feed}" method="get">
+    <button class="btn btn-primary" type="submit">Go to Feed</button>
+</form>
 </body>
 </html>
