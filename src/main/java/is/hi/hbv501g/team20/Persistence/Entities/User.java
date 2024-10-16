@@ -32,7 +32,7 @@ public class User {
     private List<StudyActivity> activities;
 
     @Column(columnDefinition = "TINYINT(1)")
-    public int privacy = 0;
+    public Integer privacy = 0;
 
     public User() {
         this.privacy = 0;
@@ -90,15 +90,15 @@ public class User {
     }
     //can do removeactivity for delete
 
-    public int getPrivacy() {
+    public Integer getPrivacy() {
         return privacy;
     }
 
-    public void setPrivacy(int privacy) {
+    public void setPrivacy(Integer privacy) {
         this.privacy = privacy;
     }
 
-    public void changePrivacy(int privacy) {
+    public void changePrivacy(Integer privacy) {
         this.privacy = privacy;
     }
 

@@ -49,6 +49,10 @@ public class LoginController {
     // When an existing user logs in, we add them as a session and model attribute while they are online.
     @RequestMapping(value="/api/login", method=RequestMethod.POST)
     public String loginPOST(@ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session){
+        if (user.getPrivacy() == null) {
+            user.setPrivacy(0);
+        }
+
         if (result.hasErrors()) {
             return "login";
         }
@@ -84,10 +88,6 @@ public class LoginController {
         if (user == null) {
             model.addAttribute("error", "User not logged in.");
             return "login";  // Redirect to login page
-        }
-
-        if( privacy != 0 && privacy != 1 ) {
-            user = loginService.updatePrivacy(user.getId(), 0);
         }
 
         // Log the user and privacy values for debugging
