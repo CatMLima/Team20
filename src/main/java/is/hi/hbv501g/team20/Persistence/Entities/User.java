@@ -31,7 +31,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> activities;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(columnDefinition = "TINYINT(1)")
     public int privacy = 0;
 
     public User() {

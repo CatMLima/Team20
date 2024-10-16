@@ -86,6 +86,10 @@ public class LoginController {
             return "login";  // Redirect to login page
         }
 
+        if( privacy != 0 && privacy != 1 ) {
+            user = loginService.updatePrivacy(user.getId(), 0);
+        }
+
         // Log the user and privacy values for debugging
         System.out.println("User before update: " + user.getName());
         System.out.println("Privacy before update: " + user.getPrivacy());
