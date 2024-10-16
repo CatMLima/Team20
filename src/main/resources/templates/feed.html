@@ -18,6 +18,14 @@
     <button type="submit">Create a Study Activity</button>
 </form>
 
+<!-- Search Bar -->
+<form th:action="@{/feed}" method="get">
+    <input type="text" name="search" placeholder="Search study activities..." class="form-control" style="width: 50%; display: inline-block;">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<br>
+
 <!-- Here below we can add content to the feed -->
 
 <div th:switch="${studyactivity}">

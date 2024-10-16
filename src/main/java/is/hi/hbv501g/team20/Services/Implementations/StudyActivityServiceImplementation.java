@@ -1,6 +1,7 @@
 package is.hi.hbv501g.team20.Services.Implementations;
 
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
+import is.hi.hbv501g.team20.Persistence.Entities.User;
 import is.hi.hbv501g.team20.Persistence.Repository.StudyActivityRepository;
 import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
@@ -46,4 +47,23 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
         return studyActRepo.findAll();
     }
 
+    @Override
+    public List<StudyActivity> searchByTitleOrDescription(String searchText) {
+        List<StudyActivity> FoundByTitle = studyActRepo.findByTitle(searchText);
+        List<StudyActivity> FoundByDesc = studyActRepo.findByDescription(searchText);
+        if(FoundByTitle == null){ return FoundByDesc; }
+        else{ return FoundByTitle; }
+    }
+
+    @Override
+    public List<StudyActivity> findAllPublicAndUserActivities(User user) {
+        // Fetch public activities and user's own activities
+        List<StudyActivity> publicActivities = studyActRepo.findAllPublicActivities();
+        List<StudyActivity> userActivities = studyActRepo.findByUser(user.getId());
+
+        // Combine the two lists
+        publicActivities.addAll(userActivities);
+
+        return publicActivities;
+    }
 }

@@ -61,13 +61,24 @@ public class StudyActivityController {
     // Feed page stuff is here below
     // Displays feed page
     @RequestMapping("/feed")
-    public String showFeed(HttpSession session, Model model) {
+    public String showFeed(@RequestParam(value = "search", required = false) String search,
+                           HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        List<StudyActivity> allStudyActivities = studyActivityService.findAll();
-        model.addAttribute("studyactivity", allStudyActivities);
+        //List<StudyActivity> allStudyActivities = studyActivityService.findAll();
+        //model.addAttribute("studyactivity", allStudyActivities);
+
+        List<StudyActivity> activities;
+
         if (user != null) {
             model.addAttribute("user", user);
         }
+        if (search != null && !search.isEmpty()) {
+            activities = studyActivityService.searchByTitleOrDescription(search);
+        } else {
+            activities = studyActivityService.findAllPublicAndUserActivities(user);
+        }
+
+        model.addAttribute("studyActivities", activities);
         return "feed";
     }
 
