@@ -7,9 +7,13 @@ import java.util.Optional;
 
 public interface LoginService {
     User save(User user);
-    //void delete(User user);
+
+    User updatePrivacy(long id, int privacy);
+
+    void delete(User user);
     List<User> findAll();
     User findByEmail(String username);
     User login(User user);
     User findById(long id);
+
 }

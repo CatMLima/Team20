@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
@@ -51,6 +49,10 @@ public class LoginController {
     // When an existing user logs in, we add them as a session and model attribute while they are online.
     @RequestMapping(value="/api/login", method=RequestMethod.POST)
     public String loginPOST(@ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session){
+        if (user.getPrivacy() == null) {
+            user.setPrivacy(0);
+        }
+
         if (result.hasErrors()) {
             return "login";
         }
@@ -58,6 +60,9 @@ public class LoginController {
         User existing = loginService.findByEmail(user.getEmail());
 
         if (existing != null) {
+            if(existing.getPrivacy() == null || existing.privacy != 0 && existing.privacy != 1 ) {
+                existing = loginService.updatePrivacy(existing.getId(), 0);
+            }
             session.setAttribute("user", existing);
             model.addAttribute("user", existing);
             return "redirect:/feed";
@@ -77,4 +82,54 @@ public class LoginController {
         }
         return "login";
     }
+
+    @PostMapping("/settings/privacy")
+    public String changePrivacy(@RequestParam int privacy, HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("user"); // Retrieve user from session
+
+        if (user == null) {
+            model.addAttribute("error", "User not logged in.");
+            return "login";  // Redirect to login page
+        }
+
+        // Log the user and privacy values for debugging
+        System.out.println("User before update: " + user.getName());
+        System.out.println("Privacy before update: " + user.getPrivacy());
+
+        // Update the user's privacy setting and save
+        user = loginService.updatePrivacy(user.getId(), privacy);
+
+        // Log the updated user object
+        System.out.println("User after update: " + user.getName());
+        System.out.println("Privacy after update: " + user.getPrivacy());
+
+        // Update session with the latest user data
+        session.setAttribute("user", user);
+
+        // Show the updated settings
+        model.addAttribute("user", user);
+        model.addAttribute("message", "Privacy setting updated successfully.");
+        return "settings"; // Return to settings form with updated values
+    }
+
+
+
+    @PostMapping("/delete-account")
+    public String deleteAccount(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+
+        if (user == null) {
+            model.addAttribute("error", "User not logged in.");
+            return "login";
+        }
+
+        // Delete the user account
+        loginService.delete(user);
+        session.invalidate(); // Invalidate session after account deletion
+
+        // Redirect to home
+        return "redirect:/home";
+    }
+
 }

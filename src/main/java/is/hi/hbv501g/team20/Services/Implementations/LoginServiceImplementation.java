@@ -11,19 +11,17 @@ import java.util.List;
 @Service
 public class LoginServiceImplementation  implements LoginService {
 
-    @Autowired
+    final
     UserRepository userRepo;
+
+    public LoginServiceImplementation(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     public User save(User user) {
         return userRepo.save(user);
     }
-
-    // Moved to settings???
-    //@Override
-    //public void delete(User user) {
-    //     userRepo.delete(user);
-    //}
 
     @Override
     public List<User> findAll() {
@@ -50,4 +48,17 @@ public class LoginServiceImplementation  implements LoginService {
     public User findById(long id){
         return userRepo.findById(id).orElse(null);
     }
+
+    @Override
+    public User updatePrivacy(long id, int privacy){
+        User user = findById(id);
+        if (user != null) {
+            user.changePrivacy(privacy);
+            return userRepo.save(user);
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(User user){ userRepo.delete(user); }
 }

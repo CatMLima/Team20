@@ -5,6 +5,16 @@
     <title>Settings</title>
 </head>
 <body>
+<h3><span th:text="${user.name}"></span>, (<span th:text="${user.email}"></span>)</h3>
+
+<form th:action="@{/feed}" method="get">
+    <button type="submit">Go to Feed</button>
+</form>
+<form th:action="@{/user}" method="get">
+    <button type="submit">Go to Profile</button>
+</form>
+
+
 
     <!-- Copied from the user.html // Change Picture -->
     <div>
@@ -16,6 +26,7 @@
         </form>
     </div>
 
+    <!-- ENDPOINT for the next part this is just a placeholder / structure -->
     <div>
         <h3>Change Password</h3>
         <form id="changePasswordForm" th:action="@{/change-password}" method="post">
@@ -40,18 +51,23 @@
     <!-- Change Privacy Settings -->
     <div>
         <h3>Change Privacy Settings</h3>
-        <form th:action="@{/change-privacy}" method="post">
-            <div>
-                <label for="privateAccount">Private Account:</label>
-                <input type="checkbox" id="privateAccount" name="privateAccount" th:checked="${user.privacySetting}">
-            </div>
-            <div>
-                <button type="submit">Save Privacy Settings</button>
-            </div>
+        <form th:action="@{/settings/privacy}" method="post">
+            <p>
+                <input type="radio" th:field="*{user.privacy}" value=1 id="private"
+                       th:checked="${user.privacy} == 1" />
+                <label for="private">Private</label>
+
+                <input type="radio" th:field="*{user.privacy}" value=0 id="public"
+                       th:checked="${user.privacy} == 0" />
+                <label for="public">Public</label>
+            </p>
+
+            <button type="submit">Save</button>
         </form>
     </div>
 
-    <!-- Delete Account -->
+
+    <!-- Delete Account // NOT WORKING YET -->
     <div>
         <h3>Delete Account</h3>
         <form th:action="@{/delete-account}" method="post">
