@@ -19,13 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class UserController {
 
-    private final UserRepository userRepository;
     private LoginServiceImplementation loginService;
 
     @Autowired
     public UserController(LoginServiceImplementation loginService, UserRepository userRepository) {
         this.loginService = loginService;
-        this.userRepository = userRepository;
     }
 
     // upload a new profile picture and save the changes to the database.
