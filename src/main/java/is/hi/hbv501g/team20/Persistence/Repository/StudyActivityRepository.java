@@ -34,11 +34,11 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         @Query("SELECT sa FROM StudyActivity sa WHERE sa.user = :user")
         List<StudyActivity> findByUser(@Param("user") User user);
 
-        @Query("SELECT '%sa%' FROM StudyActivity sa WHERE sa.description = :descText")
+        @Query("SELECT sa FROM StudyActivity sa WHERE sa.description = ?1")
         List<StudyActivity> findByDescription(@Param("descText") String descText);
 
-        @Query("SELECT '%sa%' FROM StudyActivity sa WHERE sa.title = :descText")
-        List<StudyActivity> findByTitle(@Param("descText") String descText);
+        @Query("SELECT sa FROM StudyActivity sa WHERE sa.title = ?1")
+        List<StudyActivity> findByTitle(String title);
 
 
 }

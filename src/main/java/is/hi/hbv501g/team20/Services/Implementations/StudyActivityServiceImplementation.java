@@ -68,14 +68,15 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
         // Retrieve public activities (privacy = 0)
         List<StudyActivity> activitiesPublic = studyActRepo.findAllPublicActivities();
 
-        if (user != null) {
+        if (user != null && user.privacy == 1) {
             // Retrieve user's own activities
             List<StudyActivity> activitiesUser = studyActRepo.findByUser(user);
             activities.addAll(activitiesUser);
+            activities.addAll(activitiesPublic);
+            return activities;
         }
 
-        activities.addAll(activitiesPublic);
-        return activities;
+        return activitiesPublic;
     }
 
     @Override
