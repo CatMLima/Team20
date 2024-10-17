@@ -12,8 +12,5 @@ public interface StudyActivityService {
     boolean existsById(Long id);
     StudyActivity findById(long id);
     List<StudyActivity> findAll();
-
-    // New methods for search and filtering
-    List<StudyActivity> searchByTitleOrDescription(String searchText);
-    List<StudyActivity> findAllPublicAndUserActivities(User user);
+    List<StudyActivity> findByUser(User user);
 }

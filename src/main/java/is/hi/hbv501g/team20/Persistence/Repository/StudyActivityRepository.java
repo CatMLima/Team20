@@ -18,6 +18,7 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         void delete(StudyActivity studyActivity);
         StudyActivity findById(long id);
         List<StudyActivity> findAll();
+        List<StudyActivity> findByUser(User user);
         //List<StudyActivity> findByLocation(Location location);
         //List<StudyActivity> findByDate(Date date);
 

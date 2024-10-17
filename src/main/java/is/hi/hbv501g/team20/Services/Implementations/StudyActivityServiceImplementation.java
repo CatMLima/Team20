@@ -16,6 +16,8 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     //UserRepository userRepo;
     @Autowired
     StudyActivityRepository studyActRepo;
+    @Autowired
+    UserRepository userRepo;
 
     @Override
     public StudyActivity save(StudyActivity studyActivity) {
@@ -48,22 +50,6 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     }
 
     @Override
-    public List<StudyActivity> searchByTitleOrDescription(String searchText) {
-        List<StudyActivity> FoundByTitle = studyActRepo.findByTitle(searchText);
-        List<StudyActivity> FoundByDesc = studyActRepo.findByDescription(searchText);
-        if(FoundByTitle == null){ return FoundByDesc; }
-        else{ return FoundByTitle; }
-    }
+    public List<StudyActivity> findByUser(User user) { return studyActRepo.findByUser(user); }
 
-    @Override
-    public List<StudyActivity> findAllPublicAndUserActivities(User user) {
-        // Fetch public activities and user's own activities
-        List<StudyActivity> publicActivities = studyActRepo.findAllPublicActivities();
-        List<StudyActivity> userActivities = studyActRepo.findByUser(user.getId());
-
-        // Combine the two lists
-        publicActivities.addAll(userActivities);
-
-        return publicActivities;
-    }
 }
