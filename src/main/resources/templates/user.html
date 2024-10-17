@@ -11,18 +11,17 @@
     <p> Your email: <span th:text="${user.email}"></span></p>
     <!-- Add more user details as needed -->
     <!-- <a href="/logout">Logout</a>  Logout link -->
+    <!-- display the user picture -->
     <div>
         <h2> Your Profile Picture</h2>
         <img id="picture" th:src="@{'/user/' + ${user.id} + '/profilePicture'}" alt="Profile Picture" width="150" height="150" />
     </div>
 
-    <div>
-        <h5> Change Profile Picture</h5>
-        <form th:action="@{/api/uploadProfilePicture}" method="post" enctype="multipart/form-data">
-            <input type="file" name="profilePicture" accept="image/*" required>
-            <input type="hidden" name="userId" th:value="${user.id}">
-            <button class="btn btn-outline-dark" type="submit">Upload</button>
-        </form>
+    <div> <!-- View user's StudyActivities -->
+        <h4>View Your Activities</h4>
+        <a th:href="@{/studyactivity-list}">
+            <button class="btn btn-info" type="submit"> View my StudyActivities</button>
+        </a>
     </div>
 
     <!-- Add the Settings button -->
@@ -33,12 +32,7 @@
         </form>
     </div>
 
-    <div> <!-- View user's StudyActivities -->
-        <h4></h4>
-        <a th:href="@{/studyactivity-list}">
-        <button class="btn btn-info" type="submit"> View my StudyActivities</button>
-        </a>
-    </div>
+
 
     <div> <!-- Go to feed -->
         <h5></h5>
