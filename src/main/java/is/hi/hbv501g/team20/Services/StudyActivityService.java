@@ -13,4 +13,7 @@ public interface StudyActivityService {
     StudyActivity findById(long id);
     List<StudyActivity> findAll();
     List<StudyActivity> findByUser(User user);
+
+    List<StudyActivity> searchByTitleOrDescription(String search);
+    List<StudyActivity> findAllPublicAndUserActivities(User user);
 }

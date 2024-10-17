@@ -52,4 +52,18 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     @Override
     public List<StudyActivity> findByUser(User user) { return studyActRepo.findByUser(user); }
 
+    @Override
+    public List<StudyActivity> searchByTitleOrDescription(String search) {
+        List<StudyActivity> foundByTitle = studyActRepo.findByTitle(search);
+        List<StudyActivity> foundByDescription = studyActRepo.findByDescription(search);
+        foundByTitle.addAll(foundByDescription);
+        return foundByTitle;
+    }
+
+    @Override
+    public List<StudyActivity> findAllPublicAndUserActivities(User user) {
+        List<StudyActivity> activities = studyActRepo.findAllPublicAndUserActivities(user);
+        return activities;
+    }
+
 }

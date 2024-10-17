@@ -38,4 +38,5 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         @Query("SELECT '%sa%' FROM StudyActivity sa WHERE sa.title = :descText")
         List<StudyActivity> findByTitle(@Param("descText") String descText);
 
+        List<StudyActivity> findAllPublicAndUserActivities(User user);
 }
