@@ -63,11 +63,18 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
 
     @Override
     public List<StudyActivity> findAllPublicAndUserActivities(User user) {
-        List<StudyActivity> activitiesPublic = studyActRepo.findAllPublicActivities();
-        List<StudyActivity> activitiesUser = studyActRepo.findByUser(user);
         List<StudyActivity> activities = new ArrayList<>();
+
+        // Retrieve public activities (privacy = 0)
+        List<StudyActivity> activitiesPublic = studyActRepo.findAllPublicActivities();
+
+        if (user != null) {
+            // Retrieve user's own activities
+            List<StudyActivity> activitiesUser = studyActRepo.findByUser(user);
+            activities.addAll(activitiesUser);
+        }
+
         activities.addAll(activitiesPublic);
-        activities.addAll(activitiesUser);
         return activities;
     }
 

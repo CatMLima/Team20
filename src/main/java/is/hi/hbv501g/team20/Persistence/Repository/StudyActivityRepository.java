@@ -19,20 +19,20 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         void delete(StudyActivity studyActivity);
         StudyActivity findById(long id);
         List<StudyActivity> findAll();
-        List<StudyActivity> findByUser(User user);
+        //List<StudyActivity> findByUser(User user);
         //List<StudyActivity> findByLocation(Location location);
         //List<StudyActivity> findByDate(Date date);
 
         //things to implement later: findBySubject, findByDuration,edit(studyActivity)
 
 
-        // Query to find all public study activities
+        // Query to find public study activities (privacy = 0)
         @Query("SELECT sa FROM StudyActivity sa WHERE sa.privacy = 0")
         List<StudyActivity> findAllPublicActivities();
 
-        // Query to find activities for a specific user
-        @Query("SELECT sa FROM StudyActivity sa WHERE sa.user = :userId")
-        List<StudyActivity> findByUser(@Param("userId") Long userId);
+        // Query to find activities for a specific user by user entity
+        @Query("SELECT sa FROM StudyActivity sa WHERE sa.user = :user")
+        List<StudyActivity> findByUser(@Param("user") User user);
 
         @Query("SELECT '%sa%' FROM StudyActivity sa WHERE sa.description = :descText")
         List<StudyActivity> findByDescription(@Param("descText") String descText);

@@ -88,9 +88,6 @@ public class StudyActivityController {
     public String showFeed(@RequestParam(value = "search", required = false) String search,
                            HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        //List<StudyActivity> allStudyActivities = studyActivityService.findAll();
-        //model.addAttribute("studyactivity", allStudyActivities);
-
         List<StudyActivity> activities;
 
         if (user != null) {
@@ -102,7 +99,7 @@ public class StudyActivityController {
             activities = studyActivityService.findAllPublicAndUserActivities(user);
         }
 
-        model.addAttribute("studyActivities", activities);
+        model.addAttribute("studyactivity", activities); // Fix the attribute name to match the Thymeleaf template
         return "feed";
     }
 
