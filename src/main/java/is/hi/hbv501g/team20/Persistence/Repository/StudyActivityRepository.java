@@ -6,6 +6,7 @@ import is.hi.hbv501g.team20.Persistence.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.QueryRewriter;
 
 import java.util.Date;
 import java.util.List;
@@ -24,8 +25,9 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
 
         //things to implement later: findBySubject, findByDuration,edit(studyActivity)
 
+
         // Query to find all public study activities
-        @Query("SELECT sa FROM StudyActivity sa WHERE sa.user.privacy = 0")
+        @Query("SELECT sa FROM StudyActivity sa WHERE sa.privacy = 0")
         List<StudyActivity> findAllPublicActivities();
 
         // Query to find activities for a specific user
@@ -38,5 +40,5 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         @Query("SELECT '%sa%' FROM StudyActivity sa WHERE sa.title = :descText")
         List<StudyActivity> findByTitle(@Param("descText") String descText);
 
-        List<StudyActivity> findAllPublicAndUserActivities(User user);
+
 }

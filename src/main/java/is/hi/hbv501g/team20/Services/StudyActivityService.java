@@ -16,4 +16,5 @@ public interface StudyActivityService {
 
     List<StudyActivity> searchByTitleOrDescription(String search);
     List<StudyActivity> findAllPublicAndUserActivities(User user);
+    List<StudyActivity> findAllPublicActivities();
 }
