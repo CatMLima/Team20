@@ -54,8 +54,13 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     public List<StudyActivity> findByUser(User user) { return studyActRepo.findByUser(user); }
 
     @Override
-    public List<StudyActivity> searchByTitleOrDescription(String query) {
-        return studyActRepo.findByTitleContainingOrDescriptionContaining(query,query);
+    public List<StudyActivity> searchByTitleOrDescription(String query, User user) {
+        Long userId = user.getId();
+        if (userId != null && user.getPrivacy() == 1) {
+            return studyActRepo.searchTitleAndDescriptionPrivateUser(query, userId);
+        } else {
+            return studyActRepo.searchTitleAndDescriptionPublicUser(query);
+        }
     }
 
     @Override

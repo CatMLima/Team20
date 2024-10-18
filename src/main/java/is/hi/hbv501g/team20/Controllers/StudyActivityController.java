@@ -142,8 +142,8 @@ public class StudyActivityController {
 
     // Method for handling the search functionality
     @RequestMapping(value = "/feed-search", method = RequestMethod.GET)
-    public String searchStudyActivities(@RequestParam("query") String query, Model model) {
-        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query);
+    public String searchStudyActivities(@RequestParam("query") String query, Model model, User user) {
+        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query, user);
         model.addAttribute("studyactivity", searchResults);
         return "feed";
     }
