@@ -8,6 +8,16 @@
 <body>
 <h1 class="text-center"> Welcome to Your Feed</h1>
 
+<!-- Search form for filtering Study Activities -->
+<form th:action="@{/feed-search}" method="get">
+    <div class="form-group">
+        <input type="text" class="form-control" name="query" placeholder="Search study activities by title or description">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+
+    <a href="/feed" class="btn btn-secondary mb-2 ml-2">Reset</a>
+</form>
+
 <!-- Button to go to Profile Page -->
 <form th:action="@{/user}" method="get">
     <button class="btn btn-secondary" type="submit">Go to Profile</button>
