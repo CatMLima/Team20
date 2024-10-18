@@ -9,7 +9,13 @@
 <body>
 <h1><span th:text="${user.name}"></span>, (<span th:text="${user.email}"></span>)</h1>
 
-    <!-- Copied from the user.html // Change Picture -->
+    <!-- Display the user picture -->
+    <div>
+        <h3> Your Profile Picture</h3>
+        <img id="picture" th:src="@{'/user/' + ${user.id} + '/profilePicture'}" alt="Profile Picture" width="150" height="150" />
+    </div>
+
+<!-- Change Picture -->
     <div>
     <h4>Change Profile Picture</h4>
         <form th:action="@{/api/uploadProfilePicture}" method="post" enctype="multipart/form-data">

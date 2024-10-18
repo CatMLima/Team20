@@ -41,7 +41,7 @@ public class UserController {
                 loginService.save(user);
                 model.addAttribute("user", user);
                 model.addAttribute("picture", user.getProfilePicture());
-                return "user";
+                return "settings";
             } catch (Exception e) {
                 e.printStackTrace();
                 return "Error uploading profile picture";
