@@ -39,6 +39,8 @@ public class StudyActivity {
     @Lob
     private byte[] activityPicture;
 
+    private Integer privacy;
+
     public StudyActivity(Date date,
                          LocalTime start,
                          LocalTime end,
@@ -56,6 +58,7 @@ public class StudyActivity {
     }
 
     public StudyActivity() {
+        this.privacy = 0;
     }
 
     public User getUser() {
@@ -64,6 +67,10 @@ public class StudyActivity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Integer userPrivacy() {
+        return user.getPrivacy();
     }
 
     public long getId() {
@@ -133,4 +140,13 @@ public class StudyActivity {
     public byte[] getActivityPicture() {
         return activityPicture;
     }
+
+    private Integer getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(User user) {
+        this.privacy = userPrivacy();
+    }
+
 }

@@ -8,6 +8,7 @@ import is.hi.hbv501g.team20.Services.StudyActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,8 +54,25 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     public List<StudyActivity> findByUser(User user) { return studyActRepo.findByUser(user); }
 
     @Override
-    public List<StudyActivity> searchByTitleOrDescription(String query) {
-        return studyActRepo.findByTitleContainingOrDescriptionContaining(query,query);
+    public List<StudyActivity> searchByTitleOrDescription(String query, User user) {
+        Long userId = user.getId();
+        if (userId != null && user.getPrivacy() == 1) {
+            return studyActRepo.searchStudyActivityPrivateUser(query, userId);
+        } else {
+            return studyActRepo.searchStudyActivityPublicUser(query);
+        }
+    }
+
+    @Override
+    public List<StudyActivity> findAllPublicAndUserActivities(User user){
+        List<StudyActivity> activities = new ArrayList<StudyActivity>();
+        if (user.getPrivacy() == 1) {
+            activities = studyActRepo.findByUser(user);
+            activities.addAll(studyActRepo.findAllPublicActivities());
+        } else {
+            activities = studyActRepo.findAllPublicActivities();
+        }
+        return activities;
     }
 
 }

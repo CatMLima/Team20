@@ -11,7 +11,7 @@
 <!-- Search form for filtering Study Activities -->
 <form th:action="@{/feed-search}" method="get">
     <div class="form-group">
-        <input type="text" class="form-control" name="query" placeholder="Search study activities by title or description">
+        <input type="text" class="form-control" name="query" placeholder="Search study activities by title, description, subject Id or subject name">
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 
@@ -27,6 +27,8 @@
 <form th:action="@{/studyactivity-create}" method="get">
     <button class="btn btn-primary" type="submit">Create a Study Activity</button>
 </form>
+
+<br>
 
 <!-- Here below we can add content to the feed -->
 

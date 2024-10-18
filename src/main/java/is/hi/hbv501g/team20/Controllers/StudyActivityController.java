@@ -87,7 +87,7 @@ public class StudyActivityController {
     @RequestMapping("/feed")
     public String showFeed(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        List<StudyActivity> allStudyActivities = studyActivityService.findAll();
+        List<StudyActivity> allStudyActivities = studyActivityService.findAllPublicAndUserActivities(user);
         model.addAttribute("studyactivity", allStudyActivities);
         if (user != null) {
             model.addAttribute("user", user);
@@ -142,8 +142,8 @@ public class StudyActivityController {
 
     // Method for handling the search functionality
     @RequestMapping(value = "/feed-search", method = RequestMethod.GET)
-    public String searchStudyActivities(@RequestParam("query") String query, Model model) {
-        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query);
+    public String searchStudyActivities(@RequestParam("query") String query, Model model, User user) {
+        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query, user);
         model.addAttribute("studyactivity", searchResults);
         return "feed";
     }
