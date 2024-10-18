@@ -85,21 +85,13 @@ public class StudyActivityController {
     // Feed page stuff is here below
     // Displays feed page
     @RequestMapping("/feed")
-    public String showFeed(@RequestParam(value = "search", required = false) String search,
-                           HttpSession session, Model model) {
+    public String showFeed(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        List<StudyActivity> activities;
-
+        List<StudyActivity> allStudyActivities = studyActivityService.findAllPublicAndUserActivities(user);
+        model.addAttribute("studyactivity", allStudyActivities);
         if (user != null) {
             model.addAttribute("user", user);
         }
-        if (search != null && !search.isEmpty()) {
-            activities = studyActivityService.searchByTitleOrDescription(search);
-        } else {
-            activities = studyActivityService.findAllPublicAndUserActivities(user);
-        }
-
-        model.addAttribute("studyactivity", activities); // Fix the attribute name to match the Thymeleaf template
         return "feed";
     }
 

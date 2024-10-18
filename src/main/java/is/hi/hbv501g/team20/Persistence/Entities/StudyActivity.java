@@ -39,7 +39,7 @@ public class StudyActivity {
     @Lob
     private byte[] activityPicture;
 
-    private Integer privacy = 0;
+    private Integer privacy;
 
     public StudyActivity(Date date,
                          LocalTime start,

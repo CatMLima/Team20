@@ -14,4 +14,6 @@ public interface StudyActivityService {
     List<StudyActivity> findAll();
     List<StudyActivity> findByUser(User user);
     List<StudyActivity> searchByTitleOrDescription(String query);
+
+    List<StudyActivity> findAllPublicAndUserActivities(User user);
 }

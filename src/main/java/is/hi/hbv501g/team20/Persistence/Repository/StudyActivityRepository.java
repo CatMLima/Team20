@@ -33,12 +33,4 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         // Query to find activities for a specific user by user entity
         @Query("SELECT sa FROM StudyActivity sa WHERE sa.user = :user")
         List<StudyActivity> findByUser(@Param("user") User user);
-
-        @Query("SELECT sa FROM StudyActivity sa WHERE sa.description = ?1")
-        List<StudyActivity> findByDescription(@Param("descText") String descText);
-
-        @Query("SELECT sa FROM StudyActivity sa WHERE sa.title = ?1")
-        List<StudyActivity> findByTitle(String title);
-
-
 }

@@ -1,5 +1,6 @@
 package is.hi.hbv501g.team20.Services.Implementations;
 
+import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
 import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import is.hi.hbv501g.team20.Services.LoginService;
@@ -52,8 +53,11 @@ public class LoginServiceImplementation  implements LoginService {
     @Override
     public User updatePrivacy(long id, int privacy){
         User user = findById(id);
+        List<StudyActivity> activities = user.getActivities();
         if (user != null) {
             user.changePrivacy(privacy);
+            //activities.stream();
+            activities.forEach(activity -> activity.setPrivacy(user));
             return userRepo.save(user);
         }
         return null;
