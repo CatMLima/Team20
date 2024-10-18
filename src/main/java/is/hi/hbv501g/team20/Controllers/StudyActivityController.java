@@ -140,5 +140,13 @@ public class StudyActivityController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(activity.getActivityPicture());
     }
 
+    // Method for handling the search functionality
+    @RequestMapping(value = "/feed-search", method = RequestMethod.GET)
+    public String searchStudyActivities(@RequestParam("query") String query, Model model) {
+        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query);
+        model.addAttribute("studyactivity", searchResults);
+        return "feed";
+    }
+
     //End of feed page stuff
 }

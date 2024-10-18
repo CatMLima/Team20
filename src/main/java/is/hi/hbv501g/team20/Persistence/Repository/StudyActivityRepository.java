@@ -19,6 +19,6 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         List<StudyActivity> findByUser(User user);
         //List<StudyActivity> findByLocation(Location location);
         //List<StudyActivity> findByDate(Date date);
-
+        List<StudyActivity> findByTitleContainingOrDescriptionContaining(String titleQuery, String descriptionQuery);
         //things to implement later: findBySubject, findByDuration,edit(studyActivity)
 }
