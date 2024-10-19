@@ -59,7 +59,7 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
         if (userId != null && user.getPrivacy() == 1) {
             return studyActRepo.searchStudyActivityPrivateUser(query, userId);
         } else {
-            return studyActRepo.searchStudyActivityPublicUser(query);
+            return studyActRepo.searchStudyActivityPublicUser(query, user);
         }
     }
 
