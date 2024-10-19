@@ -44,6 +44,7 @@ public class StudyActivityController {
 
         User user = (User) httpSession.getAttribute("user");
         studyActivity.setUser(user);
+        studyActivity.setPrivacy(user);
         studyActivity.setDate(new Date());
         studyActivity.setStart(LocalTime.now());
         studyActivity.setEnd(LocalTime.now().plusHours(1));
