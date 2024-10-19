@@ -150,11 +150,21 @@ public class StudyActivityController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(activity.getActivityPicture());
     }
 
-    // Method for handling the search functionality
     @RequestMapping(value = "/feed-search", method = RequestMethod.GET)
-    public String searchStudyActivities(@RequestParam("query") String query, Model model, User user) {
-        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query, user);
-        model.addAttribute("studyactivity", searchResults);
+    public String searchStudyActivities(@RequestParam("query") String query, Model model, HttpSession session) {
+        // Get the user from the session
+        User sessionUser = (User) session.getAttribute("user");
+
+        // Ensure the user is not null before querying
+        if (sessionUser != null) {
+            // Pass the managed User entity to the service
+            List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query, sessionUser);
+            model.addAttribute("studyactivity", searchResults);
+        } else {
+            // Handle the case where the user is not logged in or session has expired
+            return "redirect:/login";  // Redirect to login page if needed
+        }
+
         return "feed";
     }
 

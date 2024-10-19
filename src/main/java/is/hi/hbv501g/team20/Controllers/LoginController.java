@@ -64,7 +64,7 @@ public class LoginController {
                 existing = loginService.updatePrivacy(existing.getId(), 0);
             }
             if (existing.getPassword().equals(user.getPassword())) {
-                session.setAttribute("user", existing);
+                session.setAttribute("user", existing); // saves user to the session
                 model.addAttribute("user", existing);
                 return "redirect:/feed";
             }

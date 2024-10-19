@@ -22,13 +22,9 @@ public interface StudyActivityRepository extends JpaRepository<StudyActivity, Lo
         //List<StudyActivity> findByTitleContainingOrDescriptionContaining(String titleQuery, String descriptionQuery);
         //things to implement later: findBySubject, findByDuration,edit(studyActivity)
 
-        // Query to search on users own activities and public ones
-        @Query("SELECT sa FROM StudyActivity sa WHERE ( sa.title LIKE %:query% OR sa.description LIKE %:query% OR sa.subjectID LIKE %:query% OR sa.subjectName LIKE %:query% ) AND sa.user.id = :userId")
-        List<StudyActivity> searchStudyActivityPrivateUser(@Param("query") String query, @Param("userId") Long userId);
-
         // Query to search public activities
-        @Query("SELECT sa FROM StudyActivity sa WHERE ( sa.title LIKE %:query% OR sa.description LIKE %:query% OR sa.subjectID LIKE %:query% OR sa.subjectName LIKE %:query% ) AND sa.privacy = 0")
-        List<StudyActivity> searchStudyActivityPublicUser(@Param("query") String query);
+        @Query("SELECT sa FROM StudyActivity sa WHERE ( sa.title LIKE %:query% OR sa.description LIKE %:query% OR sa.subjectID LIKE %:query% OR sa.subjectName LIKE %:query% ) AND (sa.privacy = 0 OR sa.user = :user)")
+        List<StudyActivity> searchStudyActivityPublicUser(@Param("query") String query, @Param("user") User user);
 
         // Query to find public study activities (privacy = 0)
         @Query("SELECT sa FROM StudyActivity sa WHERE sa.privacy = 0")
