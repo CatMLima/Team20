@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-
 @Entity
 @Table(name= "\"user\"")
 public class User {
@@ -18,9 +17,12 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.privacy = 0;
     }
 
+    public User() {}
 
+    public Integer privacy;
     private String name;
     private String email;
     private String password;
@@ -30,13 +32,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> activities;
-
-    @Column(columnDefinition = "TINYINT(1)")
-    public Integer privacy = 0;
-
-    public User() {
-        this.privacy = 0;
-    }
 
     public void setId(Long id) {
         this.id = id;

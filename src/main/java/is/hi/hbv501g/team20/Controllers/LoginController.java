@@ -43,7 +43,7 @@ public class LoginController {
 
     // Displays the login page
     @RequestMapping(value="/login", method= RequestMethod.GET)
-    public String getLogInPage(){ return "login"; }
+    public String getLogInPage() { return "login"; }
 
 
     // When an existing user logs in, we add them as a session and model attribute while they are online.
@@ -63,11 +63,14 @@ public class LoginController {
             if(existing.getPrivacy() == null || existing.privacy != 0 && existing.privacy != 1 ) {
                 existing = loginService.updatePrivacy(existing.getId(), 0);
             }
-            session.setAttribute("user", existing);
-            model.addAttribute("user", existing);
-            return "redirect:/feed";
+            if (existing.getPassword().equals(user.getPassword())) {
+                session.setAttribute("user", existing);
+                model.addAttribute("user", existing);
+                return "redirect:/feed";
+            }
         }
-        return "redirect:/";
+
+        return "redirect:/login";
     }
 
 

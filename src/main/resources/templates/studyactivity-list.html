@@ -25,7 +25,7 @@
         <td th:text="${studyactivity.subjectName}"></td>
         <td th:text="${studyactivity.date}"></td>
         <td>   <!-- Button to go to study activity details page -->
-          <a th:href="@{/studyactivity-details/{id}(id=${studyactivity.id})}" class="btn btn-info">View StudyActivity</a>
+          <a th:href="@{/studyactivity-edit/{id}(id=${studyactivity.id})}" class="btn btn-info">View StudyActivity</a>
         </td>
       </tr>
       </tbody>

@@ -55,10 +55,10 @@ public class StudyActivity {
         this.description = description;
         this.subjectID = subjectID;
         this.subjectName = subjectName;
+        this.privacy = 0;
     }
 
     public StudyActivity() {
-        this.privacy = 0;
     }
 
     public User getUser() {

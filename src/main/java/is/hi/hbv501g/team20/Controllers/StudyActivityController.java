@@ -60,7 +60,7 @@ public class StudyActivityController {
     public String deleteStudyActicity (@PathVariable("id") long id, Model model){
         StudyActivity studyActivityToDelete = studyActivityService.findById(id);
         studyActivityService.delete(studyActivityToDelete);
-        return "redirect:/feed";
+        return "redirect:/studyactivity-list";
     }
 
     // displays study activity details
@@ -70,6 +70,15 @@ public class StudyActivityController {
         model.addAttribute("studyactivity", studyActivity);
         return "studyactivity-details";
     }
+
+    // displays page for editing study activity
+    @RequestMapping(value="/studyactivity-edit/{id}", method= RequestMethod.GET)
+    public String getStudyActivityEditPage(@PathVariable("id") long id, Model model) {
+        StudyActivity studyActivity = studyActivityService.findById(id);
+        model.addAttribute("studyactivity", studyActivity);
+        return "studyactivity-edit";
+    }
+
 
     // Displays a page containing a list of the user's studyactivities
     @RequestMapping(value="/studyactivity-list", method= RequestMethod.GET)
