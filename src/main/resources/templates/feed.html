@@ -39,12 +39,12 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th>User</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>SubjectID</th>
-                <th>SubjectName</th>
-                <th>Created on</th>
+                <th><a href="#" onclick="sortTable(0)">"User</a></th>
+                <th><a href="#" onclick="sortTable(1)">Title</a></th>
+                <th><a href="#" onclick="sortTable(2)">Description</a></th>
+                <th><a href="#" onclick="sortTable(3)">SubjectID</a> </th>
+                <th><a href="#" onclick="sortTable(4)">SubjectName</a></th>
+                <th><a href="#" onclick="sortTable(5)">Created on</a></th>
                 <th>Details</th>
             </tr>
             </thead>
@@ -66,5 +66,22 @@
         </table>
     </div>
 </div>
+<script>
+    function sortTable(columnIndex) {
+        const table = document.querySelector("table");
+        const rows = Array.from(table.rows).slice(1); // Skip the header row
+        const sortedRows = rows.sort((a, b) => {
+            const aText = a.cells[columnIndex].innerText.toLowerCase();
+            const bText = b.cells[columnIndex].innerText.toLowerCase();
+            return aText.localeCompare(bText);
+        });
+
+        // Remove existing rows and append sorted rows
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
+        }
+        sortedRows.forEach(row => table.appendChild(row));
+    }
+</script>
 </body>
 </html>
