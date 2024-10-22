@@ -1,7 +1,9 @@
 package is.hi.hbv501g.team20.Services;
 
+import is.hi.hbv501g.team20.Persistence.Entities.Location;
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Enums.Building;
 
 import java.util.List;
 
@@ -16,4 +18,9 @@ public interface StudyActivityService {
     List<StudyActivity> searchByTitleOrDescription(String query, User user);
 
     List<StudyActivity> findAllPublicAndUserActivities(User user);
+
+    Location findByBuilding(Building building);
+    Location findByUserCount(int userCount);
+    Location save(Location location);
+    List<Location> findAllLocations();
 }

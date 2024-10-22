@@ -25,6 +25,14 @@
     <label for="subjectName">Name of subject: </label>
     <input type="text" id="subjectName" th:field="*{subjectName}" required/> <br><br>
 
+    <div th:if="${#fields.hasErrors('building')}" th:errors="*{building}" style="color:red;"></div>
+    <label for="building">Select Building: </label>
+    <select id="building" th:field="*{building}" required>
+        <option value="" disabled selected>Select a building</option>
+        <option th:each="building: ${T(is.hi.hbv501g.team20.Persistence.Enums.Building).values()}"
+                th:value="${building.name()}";
+                th:text="${building.toString()}"></option>
+    </select>
     <div>
         <button class="btn btn-success" type="submit">Post</button>
         <a class="btn btn-black" href="/feed">Cancel</a>

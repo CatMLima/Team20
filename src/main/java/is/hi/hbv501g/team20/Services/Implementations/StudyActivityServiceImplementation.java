@@ -1,7 +1,10 @@
 package is.hi.hbv501g.team20.Services.Implementations;
 
+import is.hi.hbv501g.team20.Persistence.Entities.Location;
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Enums.Building;
+import is.hi.hbv501g.team20.Persistence.Repository.LocationRepository;
 import is.hi.hbv501g.team20.Persistence.Repository.StudyActivityRepository;
 import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
@@ -19,6 +22,9 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
     StudyActivityRepository studyActRepo;
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    LocationRepository locRepo;
 
     @Override
     public StudyActivity save(StudyActivity studyActivity) {
@@ -69,6 +75,27 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
             activities = studyActRepo.findAllPublicActivities();
         }
         return activities;
+    }
+
+
+    @Override
+    public Location findByBuilding(Building building) {
+        return locRepo.findByBuilding(building);
+    }
+
+    @Override
+    public Location findByUserCount(int userCount) {
+        return locRepo.findByUserCount(userCount);
+    }
+
+    @Override
+    public Location save(Location location) {
+        return locRepo.save(location);
+    }
+
+    @Override
+    public List<Location> findAllLocations() {
+        return locRepo.findAll();
     }
 
 }
