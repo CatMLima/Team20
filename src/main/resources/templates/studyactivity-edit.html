@@ -55,6 +55,11 @@
     <td>SubjectName: </td>
     <td th:text="${studyactivity.subjectName}"></td>
   </tr>
+  <td>   <!-- Finish study-activity-->
+    <a th:href="@{/studyactivity-finish/{id}(id=${studyactivity.id})}" >
+      <button class="btn btn-danger" type="submit">Finish this Study Activity</button>
+    </a>
+  </td>
   <td>   <!-- Delete study-activity-->
     <a th:href="@{/studyactivity-delete/{id}(id=${studyactivity.id})}" >
       <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete this StudyActivity</button>

@@ -43,6 +43,8 @@ public class StudyActivity {
 
     private Integer privacy;
 
+    private Integer isActive;
+
     public StudyActivity(Date date,
                          LocalTime start,
                          LocalTime end,
@@ -52,7 +54,6 @@ public class StudyActivity {
                          String subjectName) {
         this.date = date;
         this.start = start;
-        this.end = end; //implement differently?
         this.title = title;
         this.description = description;
         this.subjectID = subjectID;
@@ -160,5 +161,13 @@ public class StudyActivity {
     }
     public int getCoffeeCount() {
         return coffees.size(); // Returns the count of coffees
+    }
+
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
     }
 }
