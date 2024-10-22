@@ -7,7 +7,7 @@
           rel="stylesheet">
 </head>
 <body>
-<h1> This is your StudyActivity</h1>
+<h1> This is <a th:text="${studyactivity.user.name}"></a>'s StudyActivity</h1>
 <table> <!-- info on study-activity-->
     <thead>
     <tr class="myFields">
@@ -40,33 +40,18 @@
         <td>SubjectName: </td>
         <td th:text="${studyactivity.subjectName}"></td>
     </tr>
-    <td>   <!-- Delete study-activity-->
-        <a th:href="@{/studyactivity-delete/{id}(id=${studyactivity.id})}" >
-            <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete this StudyActivity</button>
-        </a>
-    </td>
     </tbody>
 </table>
-<div>
-    <h2>Activity Picture</h2>
-    <img id="activityPicture" th:src="@{'/activity/' + ${studyactivity.id} + '/activityPicture'}" alt="Activity Picture" width="150" height="150" />
+
+<div th:switch="${studyactivity.activityPicture}">
+    <h2 th:case="null"> </h2>
+    <div th:case="*">
+        <h2>Activity Picture</h2>
+        <img id="activityPicture" th:src="@{'/activity/' + ${studyactivity.id} + '/activityPicture'}" alt="Activity Picture" width="150" height="150" />
+
+    </div>
 </div>
 
-<div>
-    <h5>Change Activity Picture</h5>
-    <form th:action="@{/uploadActivityPicture}" method="post" enctype="multipart/form-data">
-        <input type="file" name="activityPicture" accept="image/*" required>
-        <input type="hidden" name="activityId" th:value="${studyactivity.id}">
-        <button type="submit">Upload</button>
-    </form>
-</div>
-
-<div>
-    <h5></h5>
-    <a th:href="@{/studyactivity-list}">
-        <button class="btn btn-info" type="submit">View my StudyActivities</button>
-    </a>
-</div>
 <div>
     <h5></h5>
     <a th:href="@{/feed}">

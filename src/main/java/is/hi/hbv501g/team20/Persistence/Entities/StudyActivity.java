@@ -3,7 +3,9 @@ package is.hi.hbv501g.team20.Persistence.Entities;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -34,8 +36,8 @@ public class StudyActivity {
 
     //not yet u horny bastard! <- THE WHHAT NOW?!
 
-    //@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Coffee> coffees;
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Coffee> coffees = new ArrayList<>();
     @Lob
     private byte[] activityPicture;
 
@@ -55,10 +57,10 @@ public class StudyActivity {
         this.description = description;
         this.subjectID = subjectID;
         this.subjectName = subjectName;
+        this.privacy = 0;
     }
 
     public StudyActivity() {
-        this.privacy = 0;
     }
 
     public User getUser() {
@@ -148,5 +150,15 @@ public class StudyActivity {
     public void setPrivacy(User user) {
         this.privacy = userPrivacy();
     }
+//used if we want to get the list somehow
+    public List<Coffee> getCoffees() {
+        return coffees;
+    }
 
+    public void setCoffees(List<Coffee> coffees) {
+        this.coffees = coffees;
+    }
+    public int getCoffeeCount() {
+        return coffees.size(); // Returns the count of coffees
+    }
 }

@@ -1,7 +1,9 @@
 package is.hi.hbv501g.team20.Controllers;
 
+import is.hi.hbv501g.team20.Persistence.Entities.Coffee;
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Services.CoffeeService;
 import is.hi.hbv501g.team20.Services.LoginService;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StudyActivityController {
@@ -44,6 +48,7 @@ public class StudyActivityController {
 
         User user = (User) httpSession.getAttribute("user");
         studyActivity.setUser(user);
+        studyActivity.setPrivacy(user);
         studyActivity.setDate(new Date());
         studyActivity.setStart(LocalTime.now());
         studyActivity.setEnd(LocalTime.now().plusHours(1));
@@ -60,7 +65,7 @@ public class StudyActivityController {
     public String deleteStudyActicity (@PathVariable("id") long id, Model model){
         StudyActivity studyActivityToDelete = studyActivityService.findById(id);
         studyActivityService.delete(studyActivityToDelete);
-        return "redirect:/feed";
+        return "redirect:/studyactivity-list";
     }
 
     // displays study activity details
@@ -70,6 +75,15 @@ public class StudyActivityController {
         model.addAttribute("studyactivity", studyActivity);
         return "studyactivity-details";
     }
+
+    // displays page for editing study activity
+    @RequestMapping(value="/studyactivity-edit/{id}", method= RequestMethod.GET)
+    public String getStudyActivityEditPage(@PathVariable("id") long id, Model model) {
+        StudyActivity studyActivity = studyActivityService.findById(id);
+        model.addAttribute("studyactivity", studyActivity);
+        return "studyactivity-edit";
+    }
+
 
     // Displays a page containing a list of the user's studyactivities
     @RequestMapping(value="/studyactivity-list", method= RequestMethod.GET)
@@ -89,6 +103,18 @@ public class StudyActivityController {
         User user = (User) session.getAttribute("user");
         List<StudyActivity> allStudyActivities = studyActivityService.findAllPublicAndUserActivities(user);
         model.addAttribute("studyactivity", allStudyActivities);
+
+        Map<Long, Long> coffeeStatus = new HashMap<>(); // Map to track amount of coffees
+        Map<Long, Boolean> userHasGivenCoffee = new HashMap<>(); // Map to track user's coffee status
+        model.addAttribute("userHasGivenCoffee", userHasGivenCoffee);
+        for (StudyActivity activity : allStudyActivities) {
+            coffeeStatus.put(activity.getId(), coffeeService.countCoffeesForActivity(activity));
+            // Check if the user has given coffee for this activity
+            Coffee userCoffee = coffeeService.findCoffeeByUserAndActivity(user, activity);
+            userHasGivenCoffee.put(activity.getId(), userCoffee != null);
+        }
+        model.addAttribute("coffeeStatus", coffeeStatus);
+
         if (user != null) {
             model.addAttribute("user", user);
         }
@@ -140,12 +166,41 @@ public class StudyActivityController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(activity.getActivityPicture());
     }
 
-    // Method for handling the search functionality
     @RequestMapping(value = "/feed-search", method = RequestMethod.GET)
-    public String searchStudyActivities(@RequestParam("query") String query, Model model, User user) {
-        List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query, user);
-        model.addAttribute("studyactivity", searchResults);
+    public String searchStudyActivities(@RequestParam("query") String query, Model model, HttpSession session) {
+        // Get the user from the session
+        User sessionUser = (User) session.getAttribute("user");
+
+        // Ensure the user is not null before querying
+        if (sessionUser != null) {
+            // Pass the managed User entity to the service
+            List<StudyActivity> searchResults = studyActivityService.searchByTitleOrDescription(query, sessionUser);
+            model.addAttribute("studyactivity", searchResults);
+        } else {
+            // Handle the case where the user is not logged in or session has expired
+            return "redirect:/login";  // Redirect to login page if needed
+        }
+
         return "feed";
+    }
+    // Controller Method to toggle coffee for a study activity
+    @Autowired CoffeeService coffeeService;
+    @RequestMapping(value = "/studyactivity/{id}/toggle-coffee", method = RequestMethod.POST)
+    public String toggleCoffee(@PathVariable Long id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        StudyActivity activity = studyActivityService.findById(id); // Fetch the StudyActivity by ID
+
+        if (user != null && activity != null) {
+            Coffee existingCoffee = coffeeService.findCoffeeByUserAndActivity(user, activity);
+            if (existingCoffee != null) {
+                // If coffee exists, remove it
+                coffeeService.removeCoffee(user, activity);
+            } else {
+                // If coffee does not exist, add it
+                coffeeService.giveCoffee(user, activity);
+            }
+        }
+        return "redirect:/feed"; // Redirect to the feed page after toggling coffee
     }
 
     //End of feed page stuff
