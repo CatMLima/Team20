@@ -1,8 +1,10 @@
 package is.hi.hbv501g.team20.Controllers;
 
 import is.hi.hbv501g.team20.Persistence.Entities.Coffee;
+import is.hi.hbv501g.team20.Persistence.Entities.Location;
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Persistence.Enums.Building;
 import is.hi.hbv501g.team20.Services.CoffeeService;
 import is.hi.hbv501g.team20.Services.LoginService;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
@@ -53,6 +55,22 @@ public class StudyActivityController {
         studyActivity.setStart(LocalTime.now());
         studyActivity.setEnd(LocalTime.now().plusHours(1));
 
+        Building building = studyActivity.getBuilding();
+        Location location = studyActivityService.findByBuilding(building);
+
+        // check if locaiton exists in the database, otherwise create it
+        if (location == null){
+            location = new Location();
+            location.setBuilding(building);
+            location.setUserCount(1);
+            studyActivityService.save(location);
+        } else {
+            location.setUserCount(location.getUserCount() + 1);
+            studyActivityService.save(location);
+        }
+
+        studyActivity.setLocation(location);
+
         if(result.hasErrors()){
             return "studyactivity-create";
         }
@@ -94,6 +112,14 @@ public class StudyActivityController {
             model.addAttribute("studyactivity", studyActivities);
         }
         return "studyactivity-list";
+    }
+
+    @RequestMapping(value="/locations-list", method=RequestMethod.GET)
+    public String getLocationsList(HttpSession session, Model model) {
+        List<Location> locations = studyActivityService.findAllLocations();
+        model.addAttribute("locations", locations);
+
+        return "locations-list";
     }
 
     // Feed page stuff is here below

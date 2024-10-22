@@ -1,5 +1,6 @@
 package is.hi.hbv501g.team20.Persistence.Entities;
 
+import is.hi.hbv501g.team20.Persistence.Enums.Building;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
@@ -34,7 +35,6 @@ public class StudyActivity {
     private String subjectID;
     private String subjectName;
 
-    //not yet u horny bastard! <- THE WHHAT NOW?!
 
     @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Coffee> coffees = new ArrayList<>();
@@ -42,6 +42,13 @@ public class StudyActivity {
     private byte[] activityPicture;
 
     private Integer privacy;
+
+    @Enumerated(EnumType.STRING)
+    private Building building;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     public StudyActivity(Date date,
                          LocalTime start,
@@ -58,6 +65,7 @@ public class StudyActivity {
         this.subjectID = subjectID;
         this.subjectName = subjectName;
         this.privacy = 0;
+        this.location = null;
     }
 
     public StudyActivity() {
@@ -160,5 +168,19 @@ public class StudyActivity {
     }
     public int getCoffeeCount() {
         return coffees.size(); // Returns the count of coffees
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
