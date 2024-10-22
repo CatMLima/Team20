@@ -186,6 +186,7 @@ public class StudyActivity {
     }
     public void setLocation(Location location) {
         this.location = location;
+    }
 
     public Integer getIsActive() {
         return isActive;
