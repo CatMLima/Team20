@@ -33,6 +33,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> activities;
 
+    private Integer isActive;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -97,4 +99,11 @@ public class User {
         this.privacy = privacy;
     }
 
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
 }

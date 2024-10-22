@@ -51,7 +51,7 @@ public class StudyActivityController {
         studyActivity.setPrivacy(user);
         studyActivity.setDate(new Date());
         studyActivity.setStart(LocalTime.now());
-        studyActivity.setEnd(LocalTime.now().plusHours(1));
+        studyActivity.setIsActive(0);
 
         if(result.hasErrors()){
             return "studyactivity-create";
@@ -59,6 +59,18 @@ public class StudyActivityController {
         studyActivityService.save(studyActivity);
         return "redirect:/feed";
     }
+
+    @RequestMapping(value = "/api/studyactivity-finish/{id}", method = RequestMethod.POST)
+    public String finishStudyActivity(@PathVariable("id") long id, Model model) {
+
+        StudyActivity active = studyActivityService.findById(id);
+        active.setEnd(LocalTime.now());
+        active.setIsActive(1);
+        studyActivityService.save(active);
+        return "redirect:/feed";
+
+    }
+
 
     // deletes a selected studyactivity and removes it from the database
     @GetMapping("/studyactivity-delete/{id}")
