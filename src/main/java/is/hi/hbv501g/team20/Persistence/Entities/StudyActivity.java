@@ -43,12 +43,16 @@ public class StudyActivity {
 
     private Integer privacy;
 
+
     @Enumerated(EnumType.STRING)
     private Building building;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
+
+    private Integer isActive;
+
 
     public StudyActivity(Date date,
                          LocalTime start,
@@ -59,7 +63,6 @@ public class StudyActivity {
                          String subjectName) {
         this.date = date;
         this.start = start;
-        this.end = end; //implement differently?
         this.title = title;
         this.description = description;
         this.subjectID = subjectID;
@@ -170,6 +173,7 @@ public class StudyActivity {
         return coffees.size(); // Returns the count of coffees
     }
 
+
     public Building getBuilding() {
         return building;
     }
@@ -182,5 +186,13 @@ public class StudyActivity {
     }
     public void setLocation(Location location) {
         this.location = location;
+
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+
     }
 }

@@ -49,11 +49,12 @@ public class StudyActivityController {
     public String createStudyActivity(HttpSession httpSession, StudyActivity studyActivity, BindingResult result, Model model){
 
         User user = (User) httpSession.getAttribute("user");
+        user.setIsActive(0);
         studyActivity.setUser(user);
         studyActivity.setPrivacy(user);
         studyActivity.setDate(new Date());
         studyActivity.setStart(LocalTime.now());
-        studyActivity.setEnd(LocalTime.now().plusHours(1));
+        studyActivity.setIsActive(0);
 
         Building building = studyActivity.getBuilding();
         Location location = studyActivityService.findByBuilding(building);
@@ -77,6 +78,20 @@ public class StudyActivityController {
         studyActivityService.save(studyActivity);
         return "redirect:/feed";
     }
+
+    @RequestMapping(value = "/studyactivity-finish/{id}")
+    public String finishStudyActivity(@PathVariable("id") long id, Model model) {
+
+        StudyActivity active = studyActivityService.findById(id);
+        User user = active.getUser();
+        user.setIsActive(1);
+        active.setEnd(LocalTime.now());
+        active.setIsActive(1);
+        studyActivityService.save(active);
+        return "redirect:/feed";
+
+    }
+
 
     // deletes a selected studyactivity and removes it from the database
     @GetMapping("/studyactivity-delete/{id}")
