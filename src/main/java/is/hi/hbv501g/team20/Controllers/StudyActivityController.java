@@ -47,6 +47,7 @@ public class StudyActivityController {
     public String createStudyActivity(HttpSession httpSession, StudyActivity studyActivity, BindingResult result, Model model){
 
         User user = (User) httpSession.getAttribute("user");
+        user.setIsActive(0);
         studyActivity.setUser(user);
         studyActivity.setPrivacy(user);
         studyActivity.setDate(new Date());
@@ -60,10 +61,12 @@ public class StudyActivityController {
         return "redirect:/feed";
     }
 
-    @RequestMapping(value = "/api/studyactivity-finish/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/studyactivity-finish/{id}")
     public String finishStudyActivity(@PathVariable("id") long id, Model model) {
 
         StudyActivity active = studyActivityService.findById(id);
+        User user = active.getUser();
+        user.setIsActive(1);
         active.setEnd(LocalTime.now());
         active.setIsActive(1);
         studyActivityService.save(active);
