@@ -63,6 +63,10 @@ public class LoginController {
             if(existing.getPrivacy() == null || existing.privacy != 0 && existing.privacy != 1 ) {
                 existing = loginService.updatePrivacy(existing.getId(), 0);
             }
+            // To update the ongoing status
+            if(existing.getHasOngoingStudyActivity() == null || existing.getHasOngoingStudyActivity() != 0 && existing.getHasOngoingStudyActivity() != 1){
+                existing = loginService.updateOngoingStatus(existing.getId());
+            }
             session.setAttribute("user", existing);
             model.addAttribute("user", existing);
             return "redirect:/feed";

@@ -4,7 +4,6 @@ import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
 import is.hi.hbv501g.team20.Persistence.Repository.UserRepository;
 import is.hi.hbv501g.team20.Services.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,10 +53,17 @@ public class LoginServiceImplementation  implements LoginService {
     public User updatePrivacy(long id, int privacy){
         User user = findById(id);
         List<StudyActivity> activities = user.getActivities();
-        if (user != null) {
-            user.changePrivacy(privacy);
-            //activities.stream();
-            activities.forEach(activity -> activity.setPrivacy(user));
+        user.changePrivacy(privacy);
+        activities.forEach(activity -> activity.setPrivacy(user));
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User updateOngoingStatus(long id){
+        User user = findById(id);
+        List<StudyActivity> ongoingActivities = user.getOngoingStudyActivity();
+        if (ongoingActivities == null) {
+            user.setHasOngoingStudyActivity(1);
             return userRepo.save(user);
         }
         return null;

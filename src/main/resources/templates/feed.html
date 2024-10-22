@@ -18,24 +18,65 @@
     <a href="/feed" class="btn btn-secondary mb-2 ml-2">Reset</a>
 </form>
 
+<br>
+
 <!-- Button to go to Profile Page -->
 <form th:action="@{/user}" method="get">
     <button class="btn btn-secondary" type="submit">Go to Profile</button>
 </form>
+
+<br>
+
+<!--/*@thymesVar id="hasOngoingStudyActivity" type="java.lang.Boolean"*/-->
+
+<!-- Active study Activity -->
+<div th:switch="${ongoingStudyActivity}">
+    <!-- Display this message if 'ongoingStudyActivity' is empty -->
+    <h4 th:if="${!hasOngoingStudyActivity}">You Do Not Have Any Active Study Activities</h4>
+
+    <div th:if="${!hasOngoingStudyActivity}">
+        <h4>Your Active Study Activity</h4>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>SubjectID</th>
+                <th>SubjectName</th>
+                <th>Started at</th>
+                <th>Duration</th>
+                <th>Stop</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ongoingStudyActivity : ${ongoingStudyActivity}">
+                <td th:text="${studyactivity.title}"></td>
+                <td th:text="${studyactivity.description}"></td>
+                <td th:text="${studyactivity.subjectID}"></td>
+                <td th:text="${studyactivity.subjectName}"></td>
+                <td th:text="${studyactivity.start}"></td>
+                <td th:text="${studyactivity.duration}"></td>
+                <td>
+                    <!-- Button to start a Study Activity -->
+                    <form th:action="@{/ongoingStudyActivity-stop/{id}(id=${ongoingStudyActivity.id})}" method="post">
+                        <button class="btn btn-primary" type="submit">End Study Activity</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <!-- Button to start a Study Activity -->
 <form th:action="@{/studyactivity-create}" method="get">
     <button class="btn btn-primary" type="submit">Create a Study Activity</button>
 </form>
 
-<!-- Field displays if there is a StudyActivity on going-->
-<!-- <div class="text-center"> -->
-<!-- Check how to make value be based on the function onGoingStudyActivity -->
-<!-- <input type="hidden"  value="true"> -->
-<!-- Show the StudyActivity info Title Description SubjectID SubjectName End Button-->
-<!-- </input> -->
-<!-- </div> -->
+<br>
 
+
+<br>
 <br>
 
 <!-- Here below we can add content to the feed -->

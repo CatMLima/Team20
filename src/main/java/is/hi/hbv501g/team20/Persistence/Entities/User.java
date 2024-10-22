@@ -20,7 +20,6 @@ public class User {
         this.password = password;
     }
 
-
     private String name;
     private String email;
     private String password;
@@ -30,6 +29,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyActivity> activities;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudyActivity> ongoingStudyActivity;
+
+    @Column(columnDefinition = "TINYINT(1)")
+    public Integer hasOngoingStudyActivity;
 
     @Column(columnDefinition = "TINYINT(1)")
     public Integer privacy = 0;
@@ -89,6 +94,31 @@ public class User {
       //  activity.setUser(this); might be something we would need
     }
     //can do removeactivity for delete
+
+    public List<StudyActivity> getOngoingStudyActivity() {
+        return ongoingStudyActivity;
+    }
+
+    public void setOngoingStudyActivity(List<StudyActivity> ongoingStudyActivity) {
+        this.ongoingStudyActivity = ongoingStudyActivity;
+    }
+
+    //should a person be able to have more than one ongoing activity?
+    public void addOngoingStudyActivity(StudyActivity activity) {
+        this.ongoingStudyActivity.add(activity);
+    }
+
+    public void cancelOngoingStudyActivity(StudyActivity activity) {
+        this.ongoingStudyActivity.remove(activity);
+    }
+
+    public Integer getHasOngoingStudyActivity() {
+        return hasOngoingStudyActivity;
+    }
+
+    public void setHasOngoingStudyActivity(Integer hasOngoingStudyActivity) {
+        this.hasOngoingStudyActivity = hasOngoingStudyActivity;
+    }
 
     public Integer getPrivacy() {
         return privacy;

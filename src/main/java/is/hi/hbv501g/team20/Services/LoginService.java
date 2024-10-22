@@ -10,6 +10,8 @@ public interface LoginService {
 
     User updatePrivacy(long id, int privacy);
 
+    User updateOngoingStatus(long id);
+
     void delete(User user);
     List<User> findAll();
     User findByEmail(String username);

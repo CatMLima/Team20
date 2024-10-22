@@ -75,4 +75,18 @@ public class StudyActivityServiceImplementation implements StudyActivityService 
         return activities;
     }
 
+    @Override
+    public boolean hasOngoingStudyActivity(User user){
+        return user != null && findOngoingActivities(user) != null;
+    }
+
+    @Override
+    public List<StudyActivity> findOngoingActivities(User user){
+        if (user != null) {
+            return studyActRepo.getOngoingActivities(user);
+        }
+        return null;
+    }
+
+
 }

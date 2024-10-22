@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -45,14 +46,47 @@ public class StudyActivityController {
         User user = (User) httpSession.getAttribute("user");
         studyActivity.setUser(user);
         studyActivity.setDate(new Date());
-        studyActivity.setStart(LocalTime.now());
-        studyActivity.setEnd(LocalTime.now().plusHours(1));
+        studyActivity.setStart(LocalDateTime.now());
+        //studyActivity.setEnd(LocalDateTime.from(LocalTime.now().plusHours(1)));
+        // start study activity without an end time
 
         if(result.hasErrors()){
             return "studyactivity-create";
         }
         studyActivityService.save(studyActivity);
         return "redirect:/feed";
+    }
+
+    // Ends the study activity and saves an end time
+    @RequestMapping(value = "/studyactivity-stop/{id}", method = RequestMethod.POST)
+    public String endStudyActivity(HttpSession httpSession, BindingResult result, StudyActivity studyActivity, @PathVariable("id") long id, Model model){
+
+        User user = (User) httpSession.getAttribute("user");
+        if(user != null && studyActivityService.existsById(id) && studyActivity.getEnd() == null){
+            studyActivity.setEnd(LocalDateTime.now());
+            studyActivity.setIsOngoing(1);
+            studyActivity.setUser(user);
+            studyActivityService.save(studyActivity);
+            return "redirect:/feed";
+        }
+        return "redirect:/feed";
+    }
+
+    // Gets the current duration of an ongoing study activity
+    @RequestMapping(value = "/duration", method = RequestMethod.PATCH)
+    public long duration(HttpSession httpSession, StudyActivity studyActivity, BindingResult result, Model model){
+
+        User user = (User) httpSession.getAttribute("user");
+        if (user != null) {
+            return studyActivity.getDurationInMinutes();
+        }
+        throw  new IllegalStateException("No study activity in progress.");
+    }
+
+    @RequestMapping(value = "/timer", method = RequestMethod.GET)
+    public String getStudyTimerPage(Model model) {
+        model.addAttribute("message", "Session status will appear here");
+        return "feed";
     }
 
     // deletes a selected studyactivity and removes it from the database
@@ -88,9 +122,19 @@ public class StudyActivityController {
     public String showFeed(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         List<StudyActivity> allStudyActivities = studyActivityService.findAllPublicAndUserActivities(user);
+        List<StudyActivity> ongoingStudyActivities = studyActivityService.findOngoingActivities(user);
+        boolean hasOngoingStudyActivity = studyActivityService.hasOngoingStudyActivity(user);
         model.addAttribute("studyactivity", allStudyActivities);
+        model.addAttribute("ongoingStudyActivity", ongoingStudyActivities);
+        model.addAttribute("hasOngoingStudyActivity", hasOngoingStudyActivity);
         if (user != null) {
             model.addAttribute("user", user);
+        }
+        // TO ensure that the "old" activities get the onGoing variable updated
+        for (StudyActivity activity : allStudyActivities) {
+            if (activity.getIsOngoing() == null && activity.getEnd() != null) {
+                activity.setIsOngoing(1);
+                studyActivityService.save(activity);}
         }
         return "feed";
     }

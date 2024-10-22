@@ -16,4 +16,7 @@ public interface StudyActivityService {
     List<StudyActivity> searchByTitleOrDescription(String query, User user);
 
     List<StudyActivity> findAllPublicAndUserActivities(User user);
+
+    boolean hasOngoingStudyActivity(User user);
+    List<StudyActivity> findOngoingActivities(User user);
 }
