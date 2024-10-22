@@ -1,7 +1,9 @@
 package is.hi.hbv501g.team20.Controllers;
 
+import is.hi.hbv501g.team20.Persistence.Entities.Coffee;
 import is.hi.hbv501g.team20.Persistence.Entities.StudyActivity;
 import is.hi.hbv501g.team20.Persistence.Entities.User;
+import is.hi.hbv501g.team20.Services.CoffeeService;
 import is.hi.hbv501g.team20.Services.LoginService;
 import is.hi.hbv501g.team20.Services.StudyActivityService;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StudyActivityController {
@@ -99,6 +103,18 @@ public class StudyActivityController {
         User user = (User) session.getAttribute("user");
         List<StudyActivity> allStudyActivities = studyActivityService.findAllPublicAndUserActivities(user);
         model.addAttribute("studyactivity", allStudyActivities);
+
+        Map<Long, Long> coffeeStatus = new HashMap<>(); // Map to track amount of coffees
+        Map<Long, Boolean> userHasGivenCoffee = new HashMap<>(); // Map to track user's coffee status
+        model.addAttribute("userHasGivenCoffee", userHasGivenCoffee);
+        for (StudyActivity activity : allStudyActivities) {
+            coffeeStatus.put(activity.getId(), coffeeService.countCoffeesForActivity(activity));
+            // Check if the user has given coffee for this activity
+            Coffee userCoffee = coffeeService.findCoffeeByUserAndActivity(user, activity);
+            userHasGivenCoffee.put(activity.getId(), userCoffee != null);
+        }
+        model.addAttribute("coffeeStatus", coffeeStatus);
+
         if (user != null) {
             model.addAttribute("user", user);
         }
@@ -166,6 +182,25 @@ public class StudyActivityController {
         }
 
         return "feed";
+    }
+    // Controller Method to toggle coffee for a study activity
+    @Autowired CoffeeService coffeeService;
+    @RequestMapping(value = "/studyactivity/{id}/toggle-coffee", method = RequestMethod.POST)
+    public String toggleCoffee(@PathVariable Long id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        StudyActivity activity = studyActivityService.findById(id); // Fetch the StudyActivity by ID
+
+        if (user != null && activity != null) {
+            Coffee existingCoffee = coffeeService.findCoffeeByUserAndActivity(user, activity);
+            if (existingCoffee != null) {
+                // If coffee exists, remove it
+                coffeeService.removeCoffee(user, activity);
+            } else {
+                // If coffee does not exist, add it
+                coffeeService.giveCoffee(user, activity);
+            }
+        }
+        return "redirect:/feed"; // Redirect to the feed page after toggling coffee
     }
 
     //End of feed page stuff

@@ -45,7 +45,10 @@
                 <th><a href="#" onclick="sortTable(3)">SubjectID</a> </th>
                 <th><a href="#" onclick="sortTable(4)">SubjectName</a></th>
                 <th><a href="#" onclick="sortTable(5)">Created on</a></th>
+                <th><a href="#" onclick="sortTable(6)">Coffees</a></th>
+                <th></th>
                 <th>Details</th>
+
             </tr>
             </thead>
             <tbody>
@@ -56,6 +59,18 @@
                 <td th:text="${studyactivity.subjectID}"></td>
                 <td th:text="${studyactivity.subjectName}"></td>
                 <td th:text="${studyactivity.date}"></td>
+                <td>
+                    <span th:text="${studyactivity.coffees.size()}"></span>
+                </td>
+                <td>
+                    <!-- Toggle add/remove Coffee button -->
+                    <form th:action="@{/studyactivity/{id}/toggle-coffee(id=${studyactivity.id})}" method="post">
+                        <button class="btn"
+                                th:classappend="${userHasGivenCoffee[studyactivity.id] ?: false} ? 'btn-danger' : 'btn-success'"
+                                th:text="${userHasGivenCoffee[studyactivity.id] ?: false} ? 'Remove Coffee' : 'Give Coffee'"></button>
+                        <!-- Having ?: false will make null values return give coffee -->
+                    </form>
+                </td>
                 <td>   <!-- Button to go to study activity details page -->
                     <form th:action="@{/studyactivity-details/{id}(id=${studyactivity.id})}" method="get">
                         <button class="btn btn-info" type="submit">View Details</button>
