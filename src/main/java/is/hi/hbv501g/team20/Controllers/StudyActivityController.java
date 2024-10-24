@@ -145,16 +145,13 @@ public class StudyActivityController {
         List<StudyActivity> allStudyActivities = studyActivityService.findAllPublicAndUserActivities(user);
         model.addAttribute("studyactivity", allStudyActivities);
 
-        Map<Long, Long> coffeeStatus = new HashMap<>(); // Map to track amount of coffees
         Map<Long, Boolean> userHasGivenCoffee = new HashMap<>(); // Map to track user's coffee status
         model.addAttribute("userHasGivenCoffee", userHasGivenCoffee);
         for (StudyActivity activity : allStudyActivities) {
-            coffeeStatus.put(activity.getId(), coffeeService.countCoffeesForActivity(activity));
             // Check if the user has given coffee for this activity
             Coffee userCoffee = coffeeService.findCoffeeByUserAndActivity(user, activity);
             userHasGivenCoffee.put(activity.getId(), userCoffee != null);
         }
-        model.addAttribute("coffeeStatus", coffeeStatus);
 
         if (user != null) {
             model.addAttribute("user", user);
