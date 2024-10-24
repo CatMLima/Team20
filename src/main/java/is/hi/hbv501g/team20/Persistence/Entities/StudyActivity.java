@@ -169,9 +169,6 @@ public class StudyActivity {
     public void setCoffees(List<Coffee> coffees) {
         this.coffees = coffees;
     }
-    public int getCoffeeCount() {
-        return coffees.size(); // Returns the count of coffees
-    }
 
 
     public Building getBuilding() {
